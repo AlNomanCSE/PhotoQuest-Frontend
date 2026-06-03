@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhotoQuest — Admin Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+<div class="overlay-bg" id="ov" onclick="toggleNav(false)"></div>
+<div class="app">
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-row"><span class="brand-name">PhotoQuest</span><span class="admin-pip">ADMIN</span></div>
+    <div class="brand-sub">Operations console</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-label">Console</div>
+    <a class="nav-item active" data-go="a-overview"><span class="ni-no">01</span>Overview</a>
+    <a class="nav-item" data-go="a-members"><span class="ni-no">02</span>Members &amp; Plans</a>
+    <a class="nav-item" data-go="a-market"><span class="ni-no">03</span>Marketplace &amp; Moderation<span class="ni-flag" id="navMod">14</span></a>
+    <a class="nav-item" data-go="a-contests"><span class="ni-no">04</span>Contests</a>
+    <a class="nav-item" data-go="a-campaigns"><span class="ni-no">05</span>Brand Campaigns</a>
+    <a class="nav-item" data-go="a-payouts"><span class="ni-no">06</span>Payouts &amp; Reports</a>
+  </nav>
+  <div class="side-foot">
+    <div class="sf-line"><span>Signed in</span><span class="sf-val">Admin</span></div>
+    <div class="sf-line"><span>Role</span><span class="sf-val">Super-admin</span></div>
+    <a class="sf-up" href="../app/">View creator app →</a>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <button class="hamburger" onclick="toggleNav(true)" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="searchbar"><span class="sb-label">Search</span><input placeholder="users, photos, campaigns…"></div>
+    <div class="topbar-spacer"></div>
+    <button class="t-link" onclick="toggleTheme()" id="themeBtn">Dark</button>
+    <div class="t-div"></div>
+    <span class="plan-tag red">ADMIN MODE</span>
+    <div class="t-div"></div>
+    <button class="t-link" onclick="location.href='../auth/'">Sign out</button>
+    <img class="avatar" src="https://picsum.photos/seed/pqadmin/100/100" alt="">
+  </header>
+
+  <!-- ===================================================== 1. OVERVIEW -->
+  <section class="screen active" id="a-overview">
+    <div class="page-head"><div><div class="eyebrow">Console / 01</div><h1>Overview</h1><p>Platform health at a glance — Tuesday, 3 June 2026.</p></div></div>
+
+    <div class="stat-row six" id="kpiTop"></div>
+
+    <div class="dash-grid">
+      <div class="panel">
+        <div class="panel-head"><div><span class="ph-label">Platform revenue (13% fee) — 6 months</span><span class="ph-big">$48,200</span></div>
+          <div class="seg sm"><button class="on">6M</button><button>1Y</button></div></div>
+        <svg class="area-chart" viewBox="0 0 600 150" preserveAspectRatio="none">
+          <path d="M0,120 C90,108 130,80 200,86 C280,93 320,52 400,58 C480,64 520,28 600,18" fill="none" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="400" cy="58" r="4" fill="var(--red)"/><circle cx="600" cy="18" r="4" fill="var(--red)"/></svg>
+        <div class="chart-axis"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div>
+      </div>
+      <div class="panel"><span class="ph-label">Members by plan</span><div class="ebars" id="planDist" style="margin-top:18px"></div></div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="panel">
+        <div class="panel-title">Needs your attention</div>
+        <div class="rows" id="attention"></div>
+      </div>
+      <div class="panel"><div class="panel-title">Recent activity</div><div class="rows" id="adminActivity"></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 2. MEMBERS & PLANS -->
+  <section class="screen" id="a-members">
+    <div class="page-head"><div><div class="eyebrow">Console / 02</div><h1>Members &amp; Plans</h1>
+      <p>Manage subscribers, see plan activity, suspend or ban accounts that break the rules.</p></div>
+      <div class="head-actions"><div class="seg"><button class="on">All</button><button>Basic</button><button>Pro</button><button>Advance</button></div>
+      <button class="btn-solid" onclick="openMemberForm()">+ Add member</button></div></div>
+
+    <div class="stat-row" id="memberKpi"></div>
+
+    <div class="cols-2">
+      <div class="panel">
+        <div class="panel-title">Subscribers</div>
+        <table class="tbl admin-tbl"><thead><tr><th>Member</th><th>Plan</th><th>Status</th><th>Joined</th><th class="r">Earnings</th><th class="r">Actions</th></tr></thead>
+        <tbody id="memberBody"></tbody></table>
+      </div>
+      <div class="panel side">
+        <div class="panel-title">Plan tiers <a href="#" onclick="openNewPlanForm();return false">+ New plan</a></div>
+        <div id="planManage"></div>
+        <p class="hint">Tier price, storage and upload limits are editable here. Commission is a flat ~13% across all tiers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 3. MARKETPLACE & MODERATION -->
+  <section class="screen" id="a-market">
+    <div class="page-head"><div><div class="eyebrow">Console / 03</div><h1>Marketplace &amp; Moderation</h1>
+      <p>Review uploads, clear copyright flags, and remove anything that breaks community standards.</p></div></div>
+
+    <div class="stat-row" id="marketKpi"></div>
+
+    <div class="panel">
+      <div class="panel-title">Moderation queue — <span class="red" id="modCount">14</span> awaiting review
+        <div class="seg sm"><button class="on">Pending</button><button>Copyright flags</button><button>Reported</button></div></div>
+      <div class="mod-grid" id="modGrid"></div>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-title">Top-selling photos</div>
+      <table class="tbl admin-tbl"><thead><tr><th>Photo</th><th>Creator</th><th>Category</th><th class="r">Downloads</th><th class="r">Revenue</th></tr></thead>
+      <tbody id="topSellBody"></tbody></table>
+    </div>
+  </section>
+
+  <!-- ===================================================== 4. CONTESTS -->
+  <section class="screen" id="a-contests">
+    <div class="page-head"><div><div class="eyebrow">Console / 04</div><h1>Contests</h1>
+      <p>Create themed quests, review entries, and pick winners manually — no voting system.</p></div>
+      <button class="btn-solid" onclick="openContestForm()">+ Create contest</button></div>
+
+    <div class="stat-row" id="contestKpi"></div>
+
+    <div class="panel">
+      <div class="panel-title">All contests</div>
+      <table class="tbl admin-tbl"><thead><tr><th>Theme</th><th>Type</th><th>Deadline</th><th class="r">Entries</th><th>Status</th><th class="r">Prize</th><th class="r">Action</th></tr></thead>
+      <tbody id="contestBody"></tbody></table>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-title">Review entries — <b>Urban Nights</b> (Judging)
+        <span class="hint inline">Click an entry to shortlist; click again to mark winner</span></div>
+      <div class="entry-grid" id="entryGrid"></div>
+      <div class="judge-bar">
+        <div><span class="jb-label">Selected winner</span><span class="jb-val" id="winnerLabel">— none yet —</span></div>
+        <button class="btn-solid" onclick="assignPrize()">Assign $1,500 prize</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 5. BRAND CAMPAIGNS -->
+  <section class="screen" id="a-campaigns">
+    <div class="page-head"><div><div class="eyebrow">Console / 05</div><h1>Brand Campaigns</h1>
+      <p>Post briefs from brands, review submissions, and accept the best shots with a payout.</p></div>
+      <button class="btn-solid" onclick="openCampaignForm()">+ Create campaign</button></div>
+
+    <div class="stat-row" id="campKpi"></div>
+
+    <div class="panel">
+      <div class="panel-title">Campaigns</div>
+      <table class="tbl admin-tbl"><thead><tr><th>Brand</th><th>Brief</th><th>Payout</th><th class="r">Submissions</th><th>Status</th><th class="r">Action</th></tr></thead>
+      <tbody id="campBody"></tbody></table>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-title">Review submissions — <b>Voyagé · Wanderlust 2026</b>
+        <span class="hint inline">Accepted <b id="accCount">0</b> · committed <b id="accTotal">$0</b></span></div>
+      <div class="mod-grid" id="subGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 6. PAYOUTS & REPORTS -->
+  <section class="screen" id="a-payouts">
+    <div class="page-head"><div><div class="eyebrow">Console / 06</div><h1>Payouts &amp; Reports</h1>
+      <p>Approve creator withdrawals to Stripe virtual cards and track platform revenue.</p></div></div>
+
+    <div class="stat-row" id="payKpi"></div>
+
+    <div class="cols-2">
+      <div class="panel">
+        <div class="panel-title">Payout requests</div>
+        <table class="tbl admin-tbl"><thead><tr><th>Creator</th><th>Method</th><th>Requested</th><th class="r">Amount</th><th class="r">Action</th></tr></thead>
+        <tbody id="payBody"></tbody></table>
+      </div>
+      <div class="panel side">
+        <div class="panel-title">Where each $1 of a sale goes</div>
+        <div class="split"><div class="sp-you">Creator — 87¢</div><div class="sp-pf">13¢</div></div>
+        <div class="rows" id="feeBreak" style="margin-top:14px"></div>
+        <p class="hint">The 13% platform fee covers taxes, insurance and Stripe merchant fees. Minimum payout $50.</p>
+      </div>
+    </div>
+  </section>
+
+</div></div>
+
+<div class="modal-wrap" id="modal">
+  <div class="modal-bg" onclick="closeModal()"></div>
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head"><div><span class="mh-sub" id="modalKicker">New</span><h3 id="modalTitle">Title</h3></div>
+      <button class="x" onclick="closeModal()" aria-label="Close">✕</button></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot"><button class="btn-line" onclick="closeModal()">Cancel</button>
+      <button class="btn-solid" id="modalSubmit">Save</button></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

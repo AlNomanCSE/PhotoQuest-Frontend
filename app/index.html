@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhotoQuest — Photography, Licensed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="overlay-bg" id="ov" onclick="toggleNav(false)"></div>
+<div class="app">
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-row">
+      <span class="brand-name">PhotoQuest</span>
+      <span class="brand-idx">01</span>
+    </div>
+    <div class="brand-sub">Photography, licensed.</div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-label">Discover</div>
+    <a class="nav-item active" data-go="landing"><span class="ni-no">01</span>Home</a>
+    <a class="nav-item" data-go="pricing"><span class="ni-no">02</span>Membership</a>
+    <a class="nav-item" data-go="marketplace"><span class="ni-no">03</span>Marketplace</a>
+    <a class="nav-item" data-go="contests"><span class="ni-no">04</span>Contests<span class="ni-flag">3 live</span></a>
+    <a class="nav-item" data-go="campaigns"><span class="ni-no">05</span>Brand Campaigns</a>
+
+    <div class="nav-label">Studio</div>
+    <a class="nav-item" data-go="dashboard"><span class="ni-no">06</span>Dashboard</a>
+    <a class="nav-item" data-go="upload"><span class="ni-no">07</span>Upload</a>
+    <a class="nav-item" data-go="portfolio"><span class="ni-no">08</span>Portfolio</a>
+    <a class="nav-item" data-go="earnings"><span class="ni-no">09</span>Earnings &amp; Payouts</a>
+    <a class="nav-item" data-go="referral"><span class="ni-no">10</span>Referral</a>
+  </nav>
+
+  <div class="side-foot">
+    <div class="sf-line"><span>Plan</span><span class="sf-val">Pro</span></div>
+    <div class="sf-line"><span>Storage</span><span class="sf-val">64 / 100 GB</span></div>
+    <a class="sf-up" data-go="pricing">Upgrade to Advance →</a>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<div class="main">
+  <header class="topbar">
+    <button class="hamburger" onclick="toggleNav(true)" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="searchbar">
+      <span class="sb-label">Search</span>
+      <input placeholder="“sunset miami”, “urban night”…">
+    </div>
+    <div class="topbar-spacer"></div>
+    <button class="t-link" onclick="toggleTheme()" id="themeBtn">Dark</button>
+    <div class="t-div"></div>
+    <span class="plan-tag">PLAN / PRO</span>
+    <div class="t-div"></div>
+    <button class="t-link" onclick="location.href='../auth/'">Sign out</button>
+    <img class="avatar" src="https://picsum.photos/seed/pquser/100/100" alt="">
+  </header>
+
+  <!-- ========================================================= 1. LANDING -->
+  <section class="screen landing active" id="landing">
+    <nav class="land-nav">
+      <span class="brand-name lg">PhotoQuest</span>
+      <div class="land-links show-desktop">
+        <a data-go="marketplace">Marketplace</a><a data-go="contests">Contests</a>
+        <a data-go="campaigns">For Brands</a><a data-go="pricing">Pricing</a>
+      </div>
+      <div class="land-cta">
+        <button class="link-u" onclick="location.href='../auth/'">Sign in</button>
+        <button class="btn-solid" data-go="pricing">Start earning</button>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="kicker">Issue 01 — Stock photography, licensed in USD</div>
+      <h1 class="hero-h">Sell your photos.<br>Win quests.<br>Get paid in <span class="red">USD.</span></h1>
+      <div class="hero-under">
+        <div class="hero-lead">
+          <p>A working marketplace for photographers — license your shots, enter themed contests, and take on paid brand campaigns. Payouts settle to a Stripe virtual card the moment you clear fifty dollars.</p>
+          <div class="hero-search">
+            <input placeholder="Search 2.4M photos">
+            <button class="link-u red">Browse →</button>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="hs"><span class="n">2.4M</span><span class="t">Photos licensed</span></div>
+          <div class="hs"><span class="n">$1.8M</span><span class="t">Paid to creators</span></div>
+          <div class="hs"><span class="n">87%</span><span class="t">Creator keeps</span></div>
+          <div class="hs"><span class="n">38k</span><span class="t">Photographers</span></div>
+        </div>
+      </div>
+    </header>
+
+    <figure class="hero-fig">
+      <img src="https://picsum.photos/seed/pqlead/1600/760" alt="">
+      <figcaption><span>Fig. 01</span> Urban Nights — winning entry, May quest. © Ayesha Rahman / PhotoQuest</figcaption>
+    </figure>
+
+    <section class="ed-sec">
+      <div class="ed-head"><span class="ed-no">02</span><h2>Four ways to turn pixels into payouts</h2></div>
+      <div class="feat-list" id="landFeatures"></div>
+    </section>
+
+    <section class="ed-sec">
+      <div class="ed-head"><span class="ed-no">03</span><h2>From upload to payout, in three steps</h2></div>
+      <ol class="step-list">
+        <li><span class="sl-no">i</span><div><h3>Upload &amp; organise</h3><p>Drop files from any device. Optional AI tagging writes sell-ready keywords and files each shot into a smart folder — or leave it off.</p></div></li>
+        <li><span class="sl-no">ii</span><div><h3>Sell, compete, collaborate</h3><p>List on the marketplace, enter the weekly quests, or apply to brand briefs that suit your style.</p></div></li>
+        <li><span class="sl-no">iii</span><div><h3>Cash out in USD</h3><p>Earnings collect in your wallet. Withdraw to your Stripe virtual card once you pass the $50 minimum.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="cta-block">
+      <h2>Your next photo could be your next paycheck.</h2>
+      <button class="btn-line-inv" data-go="pricing">See membership plans →</button>
+    </section>
+
+    <footer class="land-foot">
+      <div><span class="brand-name">PhotoQuest</span><p>© 2026 — Concept prototype</p></div>
+      <div class="lf-cols">
+        <div><b>Platform</b><a data-go="marketplace">Marketplace</a><a data-go="contests">Contests</a><a data-go="campaigns">Campaigns</a></div>
+        <div><b>Creators</b><a data-go="pricing">Pricing</a><a data-go="dashboard">Dashboard</a><a data-go="referral">Referral</a></div>
+        <div><b>Legal</b><a>Terms</a><a>Privacy</a><a>Learning Center</a></div>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ========================================================= 2. PRICING -->
+  <section class="screen" id="pricing">
+    <div class="page-head">
+      <div><div class="eyebrow">Membership / 02</div><h1>Three plans. Storage included.</h1>
+      <p>Every tier sells on the marketplace and pays out in USD. Differences are storage, upload limits and access — not your cut.</p></div>
+      <div class="seg" id="billSeg"><button class="on" onclick="setBilling('mo',this)">Monthly</button><button onclick="setBilling('yr',this)">Yearly −17%</button></div>
+    </div>
+    <div class="price-table" id="planGrid"></div>
+    <div class="fee-note">
+      <span class="fn-mark">Note</span>
+      <p>On each marketplace sale the platform keeps roughly <b>13%</b> — taxes, insurance and Stripe merchant fees — so you keep <b>~87%</b>. Contest prizes and brand-campaign fees carry <b>no extra commission</b> on Pro &amp; Advance.</p>
+    </div>
+  </section>
+
+  <!-- ========================================================= 3. DASHBOARD -->
+  <section class="screen" id="dashboard">
+    <div class="page-head"><div><div class="eyebrow">Studio / 06</div><h1>Dashboard</h1><p>Morning, Ayesha — here’s where things stand.</p></div>
+      <button class="btn-solid" data-go="upload">Quick upload</button></div>
+
+    <div class="stat-row" id="statRow"></div>
+
+    <div class="dash-grid">
+      <div class="panel">
+        <div class="panel-head"><div><span class="ph-label">Earnings — last 6 months</span><span class="ph-big">$3,240</span></div>
+          <div class="seg sm"><button class="on">6M</button><button>1Y</button><button>All</button></div></div>
+        <svg class="area-chart" viewBox="0 0 600 170" preserveAspectRatio="none">
+          <path d="M0,140 C80,120 120,90 180,100 C240,110 280,60 360,70 C440,80 480,30 600,20" fill="none" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="360" cy="70" r="4" fill="var(--red)"/><circle cx="600" cy="20" r="4" fill="var(--red)"/>
+        </svg>
+        <div class="chart-axis"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div>
+      </div>
+
+      <div class="panel">
+        <span class="ph-label">Upload usage — this month</span>
+        <div class="usage-big">347<span>/500</span></div>
+        <div class="usage-meta">photos uploaded · Pro · <b>153 left</b></div>
+        <div class="meter"><div class="meter-fill" style="width:69%"></div></div>
+        <div class="usage-foot"><span>Storage</span><span class="mono">64 / 100 GB</span></div>
+        <div class="meter"><div class="meter-fill" style="width:64%"></div></div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="panel"><div class="panel-title">Top performing photos<a data-go="portfolio">All →</a></div><div id="topPhotos" class="rows"></div></div>
+      <div class="panel"><div class="panel-title">Recent activity</div><div id="activity" class="rows"></div></div>
+    </div>
+  </section>
+
+  <!-- ========================================================= 4. UPLOAD -->
+  <section class="screen" id="upload">
+    <div class="page-head"><div><div class="eyebrow">Studio / 07</div><h1>Upload</h1>
+      <p>From computer, camera or phone. AI tagging is optional — switch it on for auto-keywords, or off to keep it manual.</p></div></div>
+    <div class="upload-grid">
+      <div>
+        <div class="dropzone" id="dz">
+          <figure class="dz-preview" id="dzPreview"><img src="https://picsum.photos/seed/pqupload/900/560" alt=""><div class="scan-line"></div></figure>
+          <div class="dz-actions">
+            <button class="btn-line">Choose files</button>
+            <button class="btn-line">From camera</button>
+            <button class="btn-line">From phone</button>
+          </div>
+          <p class="dz-hint">JPG · PNG · RAW · up to 50MB — drag to reorder</p>
+        </div>
+        <div class="field"><label>Visibility</label>
+          <div class="seg"><button class="on">Public — for sale</button><button>Private — campaigns only</button></div></div>
+      </div>
+
+      <div class="ai-panel">
+        <div class="ai-head">
+          <div><span class="ai-title">AI Smart Tagging</span><span class="ai-opt">Optional feature</span></div>
+          <div class="switch on" id="aiSwitch" onclick="toggleAI(this)"></div>
+        </div>
+        <div id="aiOn">
+          <div class="field"><label>Detected scene</label><div class="val">sunset · ocean · coastline</div></div>
+          <div class="field"><label>Auto filename</label><div class="val">sunset-miami-12052025.jpg</div></div>
+          <div class="field"><label>Smart folder</label><div class="chips"><span class="chipm">Travel</span><span class="chipm">Nature</span></div></div>
+          <div class="field"><label>Suggested keywords — tap to edit</label>
+            <div class="chips"><span class="chipm">sunset</span><span class="chipm">beach</span><span class="chipm">golden hour</span><span class="chipm">ocean</span><span class="chipm">miami</span><span class="chipm">horizon</span><span class="chipm add">+ add</span></div></div>
+          <button class="btn-solid full">Publish 1 photo</button>
+        </div>
+        <div id="aiOff" style="display:none">
+          <p class="ai-offnote">AI tagging is off. Add keywords and pick a folder manually — useful for keeping processing costs down.</p>
+          <div class="field"><label>Keywords (manual)</label><div class="val muted">Type keywords, comma separated…</div></div>
+          <div class="field"><label>Folder</label><div class="val muted">Select folder…</div></div>
+          <button class="btn-solid full">Publish 1 photo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= 5. PORTFOLIO -->
+  <section class="screen" id="portfolio">
+    <figure class="pf-cover"><img src="https://picsum.photos/seed/pqcover/1600/420" alt=""></figure>
+    <div class="pf-head">
+      <img class="pf-avatar" src="https://picsum.photos/seed/pquser/240/240" alt="">
+      <div class="pf-info">
+        <h1>Ayesha Rahman <span class="verif">✓ verified</span></h1>
+        <p class="pf-bio">Travel &amp; street photographer, Dhaka. Chasing golden hour across South Asia. Available for brand campaigns.</p>
+        <div class="pf-meta mono"><span><b>1,240</b> photos</span><span><b>38.2k</b> downloads</span><span><b>4.9</b> rating</span><span><b>Pro</b> creator</span></div>
+      </div>
+      <div class="pf-actions"><button class="btn-line">Share</button><button class="btn-solid">Follow</button></div>
+    </div>
+    <div class="pf-badges">
+      <div class="pfb"><span class="pfb-no">×3</span>Contest winner — Urban Nights, Summer Vibes</div>
+      <div class="pfb"><span class="pfb-no">5</span>Brand campaigns delivered</div>
+      <div class="pfb"><span class="pfb-no">10k</span>Downloads milestone</div>
+    </div>
+    <div class="arch-head"><span class="ed-no">—</span><h2>Gallery</h2><a data-go="upload">Manage photos →</a></div>
+    <div class="masonry" id="pfGallery"></div>
+  </section>
+
+  <!-- ========================================================= 6. MARKETPLACE -->
+  <section class="screen" id="marketplace">
+    <div class="page-head"><div><div class="eyebrow">Discover / 03</div><h1>Marketplace</h1>
+      <p>2.4M royalty-free photographs. Standard &amp; extended licenses, priced in USD.</p></div></div>
+    <div class="mk-bar">
+      <div class="mk-filters" id="mkFilters">
+        <a class="fl on">All</a><a class="fl">Travel</a><a class="fl">Street</a><a class="fl">Food</a><a class="fl">Nature</a><a class="fl">Portrait</a><a class="fl">Architecture</a>
+      </div>
+      <span class="mk-sort mono">Sort — Trending ▾</span>
+    </div>
+    <div class="arch-grid" id="mkGrid"></div>
+  </section>
+
+  <!-- ========================================================= 7. CONTESTS -->
+  <section class="screen" id="contests">
+    <div class="page-head"><div><div class="eyebrow">Discover / 04 — Pro &amp; Advance</div><h1>Contests</h1>
+      <p>Weekly &amp; monthly themed quests with cash prizes. Winners chosen by the curation desk.</p></div>
+      <div class="seg"><button class="on">Active</button><button>Mine</button><button>Past</button></div></div>
+
+    <article class="quest-feature">
+      <figure class="qf-img"><img src="https://picsum.photos/seed/pqurban/900/620" alt=""><span class="live"><i></i>Live — ends 3d 14h</span></figure>
+      <div class="qf-body">
+        <span class="qf-theme">Featured quest / Monthly</span>
+        <h2>Urban Nights</h2>
+        <p>The city after dark — neon, reflections, long exposures, and the quiet drama of empty streets.</p>
+        <div class="qf-prizes mono">
+          <div><span class="n red">$1,500</span><span class="t">1st prize</span></div>
+          <div><span class="n">412</span><span class="t">Entries</span></div>
+          <div><span class="n">3</span><span class="t">Winners</span></div>
+        </div>
+        <div class="qf-cta"><button class="btn-solid">Submit a photo</button><button class="link-u">Read rules</button></div>
+      </div>
+    </article>
+
+    <div class="arch-head"><span class="ed-no">—</span><h2>More active quests</h2></div>
+    <div class="quest-grid" id="contGrid"></div>
+  </section>
+
+  <!-- ========================================================= 8. CAMPAIGNS -->
+  <section class="screen" id="campaigns">
+    <div class="page-head"><div><div class="eyebrow">Discover / 05</div><h1>Brand Campaigns</h1>
+      <p>Real briefs from real brands. Apply, submit matching photos, get paid per accepted shot — no commission on Pro &amp; Advance.</p></div>
+      <div class="seg"><button class="on">Open</button><button>Applied</button><button>Accepted</button></div></div>
+    <div class="camp-list" id="campList"></div>
+  </section>
+
+  <!-- ========================================================= 9. EARNINGS -->
+  <section class="screen" id="earnings">
+    <div class="page-head"><div><div class="eyebrow">Studio / 09</div><h1>Earnings &amp; Payouts</h1></div>
+      <button class="btn-solid">Withdraw $340</button></div>
+    <div class="earn-grid">
+      <div>
+        <div class="vcard">
+          <div class="vc-top"><span class="vc-bal">PhotoQuest Wallet · USD</span><span class="vc-mark">stripe</span></div>
+          <div class="vc-amt">$340.00</div>
+          <div class="vc-num mono">5412 · · · · · · · · 8829</div>
+          <div class="vc-foot mono"><span>Ayesha Rahman</span><span>Virtual · 09/29</span></div>
+        </div>
+        <div class="panel" style="margin-top:18px">
+          <span class="ph-label">Revenue split per sale</span>
+          <div class="split"><div class="sp-you">You — 87%</div><div class="sp-pf">13%</div></div>
+          <p class="sp-note">The 13% covers taxes, insurance &amp; Stripe merchant fees. Minimum payout <b>$50</b>.</p>
+          <button class="btn-line full">Manage payout method</button>
+        </div>
+      </div>
+      <div>
+        <div class="stat-row two">
+          <div class="stat"><span class="st-label">Lifetime earnings</span><span class="st-val">$4,820</span></div>
+          <div class="stat"><span class="st-label">Pending (in review)</span><span class="st-val">$96</span></div>
+        </div>
+        <div class="panel" style="margin-top:18px"><span class="ph-label">Earnings by source</span><div class="ebars" id="earnBars"></div></div>
+        <div class="panel" style="margin-top:18px"><div class="panel-title">Transaction history</div>
+          <table class="tbl"><thead><tr><th>Date</th><th>Source</th><th>Detail</th><th>Status</th><th class="r">Amount</th></tr></thead><tbody id="txBody"></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= 10. REFERRAL -->
+  <section class="screen" id="referral">
+    <div class="page-head"><div><div class="eyebrow">Studio / 10</div><h1>Referral Program</h1></div></div>
+    <div class="ref-block">
+      <h2>Give $10, get $10.</h2>
+      <p>Invite friends with your link. When they subscribe to any paid plan, you both earn a bonus credited straight to your wallet.</p>
+      <div class="ref-link"><span class="rl-box mono">photoquest.io/r/ayesha-r</span><button class="btn-solid">Copy</button></div>
+      <div class="ref-share mono"><a>WhatsApp</a><a>Email</a><a>X</a><a>Copy link</a></div>
+    </div>
+    <div class="funnel">
+      <div class="fstep"><span class="n">142</span><span class="t">Link clicks</span></div>
+      <div class="fstep"><span class="n">31</span><span class="t">Signed up</span></div>
+      <div class="fstep last"><span class="n red">9</span><span class="t">Paid · $180 earned</span></div>
+    </div>
+    <div class="panel" style="margin-top:22px"><div class="panel-title">Your referrals</div>
+      <table class="tbl"><thead><tr><th>Friend</th><th>Joined</th><th>Plan</th><th>Status</th><th class="r">Bonus</th></tr></thead><tbody id="refBody"></tbody></table></div>
+  </section>
+
+</div><!-- /main -->
+</div><!-- /app -->
+<script src="js/app.js"></script>
+</body>
+</html>

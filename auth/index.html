@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhotoQuest — Sign in / Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth">
+<div class="auth-wrap">
+
+  <!-- ============ LEFT BRAND PANEL ============ -->
+  <aside class="auth-brand">
+    <div class="ab-top">
+      <span class="ab-name">PhotoQuest</span>
+      <span class="ab-tag">Photography, licensed.</span>
+    </div>
+    <div class="ab-mid">
+      <h1 class="ab-head">Sell your photos.<br>Win quests.<br>Get paid in <span class="red">USD.</span></h1>
+      <figure class="ab-fig"><img src="https://picsum.photos/seed/pqauth/900/540" alt="">
+        <figcaption><span>Fig.</span> Urban Nights — winning entry, May quest.</figcaption></figure>
+    </div>
+    <p class="ab-quote">“Listed on Monday, first license sold by Friday. The payout hit my card the same week.”<br><span>— Ayesha R., Pro creator</span></p>
+  </aside>
+
+  <!-- ============ RIGHT FORM PANEL ============ -->
+  <main class="auth-main">
+    <div class="auth-bar">
+      <span class="ab-name sm">PhotoQuest</span>
+      <label class="demo">Screens
+        <select class="fld nav-sel" id="stepNav" onchange="goStep(this.value)">
+          <optgroup label="Authentication">
+            <option value="signin">Sign in</option>
+            <option value="role">Choose account type</option>
+            <option value="signup-creator">Sign up — Creator</option>
+            <option value="signup-buyer">Sign up — Buyer</option>
+            <option value="signup-brand">Sign up — Brand</option>
+            <option value="verify">Verify email</option>
+            <option value="twofa">Two-factor (2FA)</option>
+          </optgroup>
+          <optgroup label="Onboarding">
+            <option value="onboard-plan">Creator — choose plan</option>
+            <option value="onboard-payout">Creator — payout setup</option>
+            <option value="onboard-payment">Buyer — payment method</option>
+            <option value="onboard-profile">Brand — company profile</option>
+          </optgroup>
+          <optgroup label="Recovery">
+            <option value="forgot">Forgot password</option>
+            <option value="reset">Reset password</option>
+          </optgroup>
+          <optgroup label="Internal">
+            <option value="admin">Admin sign-in</option>
+          </optgroup>
+          <optgroup label="End">
+            <option value="success">Success</option>
+          </optgroup>
+        </select>
+      </label>
+    </div>
+
+    <div class="auth-body">
+      <div class="auth-card">
+
+        <!-- SIGN IN -->
+        <section class="step active" id="signin">
+          <h2>Welcome back</h2>
+          <p class="lead">Sign in to your PhotoQuest account.</p>
+          <div class="frow"><label>Email</label><input class="fld" type="email" placeholder="you@mail.com"></div>
+          <div class="frow"><label>Password</label><div class="pw-wrap"><input class="fld" type="password" id="si-pw" placeholder="••••••••"><button class="pw-toggle" onclick="togglePw('si-pw',this)">show</button></div></div>
+          <div class="row-between"><label class="check"><input type="checkbox"> Remember me</label><a class="link-red" onclick="goStep('forgot')">Forgot password?</a></div>
+          <button class="btn-solid full" onclick="goStep('success')">Sign in</button>
+          <div class="divider">or</div>
+          <button class="btn-social" onclick="goStep('success')"><b>G</b> Continue with Google</button>
+          <button class="btn-social" onclick="goStep('success')"><b></b> Continue with Apple</button>
+          <p class="foot-note">New to PhotoQuest? <a onclick="goStep('role')">Create an account</a></p>
+          <p class="foot-note muted-note">Staff? <a onclick="goStep('admin')">Admin sign-in</a></p>
+        </section>
+
+        <!-- ROLE SELECT -->
+        <section class="step" id="role">
+          <a class="back-link" onclick="goStep('signin')">← Back</a>
+          <h2>Create your account</h2>
+          <p class="lead">First, tell us how you’ll use PhotoQuest.</p>
+          <div class="role-card sel" data-role="creator" onclick="selectRole('creator',this)">
+            <span class="rc-radio"></span><div><div class="rc-title">I’m a Creator</div><div class="rc-desc">Upload &amp; sell photos, enter contests, take brand work, get paid in USD.</div></div></div>
+          <div class="role-card" data-role="buyer" onclick="selectRole('buyer',this)">
+            <span class="rc-radio"></span><div><div class="rc-title">I’m a Buyer</div><div class="rc-desc">License and download photos for personal or commercial use.</div></div></div>
+          <div class="role-card" data-role="brand" onclick="selectRole('brand',this)">
+            <span class="rc-radio"></span><div><div class="rc-title">I’m a Brand / Company</div><div class="rc-desc">Post campaign briefs and commission photos from creators.</div></div></div>
+          <button class="btn-solid full" onclick="continueRole()">Continue</button>
+          <p class="foot-note">Already have an account? <a onclick="goStep('signin')">Sign in</a></p>
+        </section>
+
+        <!-- SIGN UP — CREATOR -->
+        <section class="step" id="signup-creator">
+          <a class="back-link" onclick="goStep('role')">← Back</a>
+          <span class="role-pill">Creator account</span>
+          <h2>Create your account</h2>
+          <div class="frow"><label>Full name</label><input class="fld" placeholder="Ayesha Rahman"></div>
+          <div class="frow"><label>Email</label><input class="fld" type="email" placeholder="you@mail.com"></div>
+          <div class="frow"><label>Password</label><div class="pw-wrap"><input class="fld" type="password" id="su-c-pw" placeholder="At least 8 characters"><button class="pw-toggle" onclick="togglePw('su-c-pw',this)">show</button></div></div>
+          <button class="btn-solid full" onclick="goStep('verify')">Create account</button>
+          <div class="divider">or</div>
+          <button class="btn-social" onclick="goStep('verify')"><b>G</b> Sign up with Google</button>
+          <button class="btn-social" onclick="goStep('verify')"><b></b> Sign up with Apple</button>
+          <p class="foot-note tiny">By continuing you agree to the Terms &amp; Privacy Policy.</p>
+        </section>
+
+        <!-- SIGN UP — BUYER -->
+        <section class="step" id="signup-buyer">
+          <a class="back-link" onclick="goStep('role')">← Back</a>
+          <span class="role-pill">Buyer account</span>
+          <h2>Create your account</h2>
+          <div class="frow"><label>Full name</label><input class="fld" placeholder="Jordan Lee"></div>
+          <div class="frow"><label>Email</label><input class="fld" type="email" placeholder="you@mail.com"></div>
+          <div class="frow"><label>Password</label><div class="pw-wrap"><input class="fld" type="password" id="su-b-pw" placeholder="At least 8 characters"><button class="pw-toggle" onclick="togglePw('su-b-pw',this)">show</button></div></div>
+          <button class="btn-solid full" onclick="goStep('verify')">Create account</button>
+          <div class="divider">or</div>
+          <button class="btn-social" onclick="goStep('verify')"><b>G</b> Sign up with Google</button>
+          <button class="btn-social" onclick="goStep('verify')"><b></b> Sign up with Apple</button>
+          <p class="foot-note tiny">By continuing you agree to the Terms &amp; Privacy Policy.</p>
+        </section>
+
+        <!-- SIGN UP — BRAND -->
+        <section class="step" id="signup-brand">
+          <a class="back-link" onclick="goStep('role')">← Back</a>
+          <span class="role-pill">Brand / Company account</span>
+          <h2>Create a brand account</h2>
+          <div class="frow"><label>Company name</label><input class="fld" placeholder="Voyagé Travel"></div>
+          <div class="fgrid"><div class="fr"><label>Your name</label><input class="fld" placeholder="Contact person"></div>
+          <div class="fr"><label>Work email</label><input class="fld" type="email" placeholder="you@company.com"></div></div>
+          <div class="frow" style="margin-top:16px"><label>Password</label><div class="pw-wrap"><input class="fld" type="password" id="su-br-pw" placeholder="At least 8 characters"><button class="pw-toggle" onclick="togglePw('su-br-pw',this)">show</button></div></div>
+          <button class="btn-solid full" onclick="goStep('verify')">Create account</button>
+          <p class="foot-note tiny">Brand accounts are reviewed before campaigns go live. By continuing you agree to the Terms.</p>
+        </section>
+
+        <!-- VERIFY EMAIL -->
+        <section class="step" id="verify">
+          <h2>Check your inbox</h2>
+          <p class="lead">We sent a 6-digit code to <b id="verifyEmail">you@mail.com</b>. Enter it below.</p>
+          <div class="code-row" id="verifyCode">
+            <input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric">
+          </div>
+          <button class="btn-solid full" onclick="afterVerify()">Verify &amp; continue</button>
+          <p class="foot-note">Didn’t get it? <a onclick="return false">Resend code</a> · <a onclick="return false">Change email</a></p>
+        </section>
+
+        <!-- 2FA -->
+        <section class="step" id="twofa">
+          <h2>Two-factor authentication</h2>
+          <p class="lead">Enter the 6-digit code from your authenticator app. Required for staff and payout-sensitive actions.</p>
+          <div class="code-row" id="twofaCode">
+            <input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric"><input class="code-box" maxlength="1" inputmode="numeric">
+          </div>
+          <button class="btn-solid full" onclick="verify2fa()">Verify</button>
+          <p class="foot-note"><a onclick="return false">Use a backup code instead</a></p>
+        </section>
+
+        <!-- ONBOARD: CREATOR PLAN -->
+        <section class="step" id="onboard-plan">
+          <div class="steps-ind"><span class="on">01 Plan</span> — <span>02 Payout</span></div>
+          <h2>Choose your plan</h2>
+          <p class="lead">Storage is included in every tier. You can change this anytime.</p>
+          <div class="seg sm" style="margin-bottom:16px"><button class="on" onclick="planCycle('mo',this)">Monthly</button><button onclick="planCycle('yr',this)">Yearly −17%</button></div>
+          <div class="planpick" id="planPick"></div>
+          <button class="btn-solid full" onclick="goStep('onboard-payout')">Continue</button>
+        </section>
+
+        <!-- ONBOARD: CREATOR PAYOUT -->
+        <section class="step" id="onboard-payout">
+          <div class="steps-ind"><span>01 Plan</span> — <span class="on">02 Payout</span></div>
+          <h2>Set up payouts</h2>
+          <p class="lead">Earnings settle in USD to a Stripe virtual card. You can finish this later.</p>
+          <div class="vcard mini">
+            <div class="vc-top"><span class="vc-bal">PhotoQuest Wallet · USD</span><span class="vc-mark">stripe</span></div>
+            <div class="vc-amt">$0.00</div>
+            <div class="vc-num mono">Issued on your first payout</div>
+            <div class="vc-foot mono"><span>YOUR NAME</span><span>VIRTUAL</span></div>
+          </div>
+          <button class="btn-solid full" onclick="goStep('success')">Connect with Stripe</button>
+          <p class="foot-note tiny">Stripe verifies your identity (KYC) so payouts comply with tax &amp; anti-fraud rules.</p>
+          <p class="foot-note"><a onclick="goStep('success')">Skip for now →</a></p>
+        </section>
+
+        <!-- ONBOARD: BUYER PAYMENT -->
+        <section class="step" id="onboard-payment">
+          <h2>Add a payment method</h2>
+          <p class="lead">Used when you license photos. Charged in USD, only at purchase.</p>
+          <div class="frow"><label>Card number</label><input class="fld mono" placeholder="4242 4242 4242 4242"></div>
+          <div class="fgrid"><div class="fr"><label>Expiry</label><input class="fld mono" placeholder="MM / YY"></div>
+          <div class="fr"><label>CVC</label><input class="fld mono" placeholder="123"></div></div>
+          <div class="frow" style="margin-top:16px"><label>Name on card</label><input class="fld" placeholder="Jordan Lee"></div>
+          <button class="btn-solid full" onclick="goStep('success')">Save &amp; finish</button>
+          <p class="foot-note"><a onclick="goStep('success')">Skip — I’ll add it at checkout →</a></p>
+        </section>
+
+        <!-- ONBOARD: BRAND PROFILE -->
+        <section class="step" id="onboard-profile">
+          <h2>Company profile</h2>
+          <p class="lead">This appears on your campaign briefs. We verify before campaigns go live.</p>
+          <div class="frow"><label>Company name</label><input class="fld" placeholder="Voyagé Travel"></div>
+          <div class="fgrid"><div class="fr"><label>Website</label><input class="fld" placeholder="voyage.com"></div>
+          <div class="fr"><label>Industry</label><select class="fld"><option>Travel</option><option>Fashion</option><option>Tech</option><option>Food &amp; beverage</option><option>Other</option></select></div></div>
+          <div class="fgrid" style="margin-top:16px"><div class="fr"><label>Billing email</label><input class="fld" type="email" placeholder="billing@company.com"></div>
+          <div class="fr"><label>VAT / Reg. no. (optional)</label><input class="fld" placeholder="—"></div></div>
+          <button class="btn-solid full" onclick="goStep('success')">Submit for review</button>
+        </section>
+
+        <!-- FORGOT -->
+        <section class="step" id="forgot">
+          <a class="back-link" onclick="goStep('signin')">← Back to sign in</a>
+          <h2>Reset your password</h2>
+          <p class="lead">Enter your email and we’ll send a reset link.</p>
+          <div class="frow"><label>Email</label><input class="fld" type="email" placeholder="you@mail.com"></div>
+          <button class="btn-solid full" onclick="goStep('reset')">Send reset link</button>
+        </section>
+
+        <!-- RESET -->
+        <section class="step" id="reset">
+          <h2>Choose a new password</h2>
+          <p class="lead">Make it at least 8 characters.</p>
+          <div class="frow"><label>New password</label><div class="pw-wrap"><input class="fld" type="password" id="rs-pw" placeholder="New password"><button class="pw-toggle" onclick="togglePw('rs-pw',this)">show</button></div></div>
+          <div class="frow"><label>Confirm password</label><input class="fld" type="password" placeholder="Repeat password"></div>
+          <button class="btn-solid full" onclick="goStep('signin')">Update password</button>
+        </section>
+
+        <!-- ADMIN SIGN-IN -->
+        <section class="step" id="admin">
+          <a class="back-link" onclick="goStep('signin')">← Back</a>
+          <span class="role-pill red">Internal · Admin</span>
+          <h2>Admin sign-in</h2>
+          <p class="lead">Staff access only. Accounts are invite-only.</p>
+          <div class="frow"><label>Work email</label><input class="fld" type="email" placeholder="admin@photoquest.io"></div>
+          <div class="frow"><label>Password</label><div class="pw-wrap"><input class="fld" type="password" id="ad-pw" placeholder="••••••••"><button class="pw-toggle" onclick="togglePw('ad-pw',this)">show</button></div></div>
+          <button class="btn-solid full" onclick="adminContinue()">Continue</button>
+          <p class="foot-note tiny">No public registration. Contact your administrator for an invite.</p>
+        </section>
+
+        <!-- SUCCESS -->
+        <section class="step" id="success">
+          <div class="success-mark ok">✓</div>
+          <h2 id="successTitle">You’re in.</h2>
+          <p class="lead" id="successLead">Your account is ready. Welcome to PhotoQuest.</p>
+          <button class="btn-solid full" onclick="openApp()">Open PhotoQuest</button>
+          <p class="foot-note"><a onclick="goStep('signin')">← Replay the flow</a></p>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhotoQuest — Frontend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EFEBE1;--paper:#F7F4EC;--ink:#1A1814;--ink2:#4B463D;--muted:#7C766A;--faint:#A39C8D;--rule:rgba(26,24,20,.18);--rule2:rgba(26,24,20,.32);--red:#B5392A;--on:#F7F4EC;
+--display:'Bricolage Grotesque',sans-serif;--body:'Instrument Sans',sans-serif;--serif:'Newsreader',serif;--mono:'Space Mono',monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#161512;--paper:#1E1C18;--ink:#ECE7DA;--ink2:#BCB5A6;--muted:#8A8475;--faint:#5C574B;--rule:rgba(236,231,218,.16);--rule2:rgba(236,231,218,.3);--red:#E0584A;--on:#161512}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+.top{display:flex;align-items:center;justify-content:space-between;padding:22px 7%;border-bottom:1px solid var(--rule)}
+.wm{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.04em}
+.top .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hero{padding:64px 7% 30px;max-width:1180px;margin:0 auto;width:100%}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:18px}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,5.4vw,64px);letter-spacing:-.05em;line-height:1.0;max-width:14ch}
+.hero h1 .r{color:var(--red)}
+.hero p{font-family:var(--serif);font-size:18px;color:var(--ink2);margin-top:20px;max-width:540px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule2);max-width:1180px;margin:30px auto 0;width:calc(100% - 14%)}
+.cardlink{display:flex;flex-direction:column;padding:30px 26px;border-right:1px solid var(--rule);transition:.18s;min-height:300px;position:relative}
+.cardlink:last-child{border-right:none}
+.cardlink:hover{background:var(--paper)}
+.cardlink .no{font-family:var(--mono);font-size:11px;color:var(--red)}
+.cardlink .thumb{height:120px;margin:16px 0 18px;overflow:hidden;border:1px solid var(--rule)}
+.cardlink .thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(.2);transition:.4s}
+.cardlink:hover .thumb img{transform:scale(1.05)}
+.cardlink h2{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.03em}
+.cardlink p{color:var(--muted);font-size:13.5px;margin-top:8px;flex:1}
+.cardlink .go{font-weight:600;color:var(--red);font-size:14px;margin-top:14px}
+.cardlink .badge{position:absolute;top:30px;right:26px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--red);color:var(--red);padding:3px 7px}
+.foot{margin-top:auto;padding:34px 7%;border-top:1px solid var(--rule);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;color:var(--muted);font-size:12.5px}
+.foot .mono{font-family:var(--mono)}
+@media(max-width:880px){.grid{grid-template-columns:1fr;width:calc(100% - 14%)}.cardlink{border-right:none;border-bottom:1px solid var(--rule);min-height:auto}.cardlink:last-child{border-bottom:none}}
+</style>
+</head>
+<body>
+  <header class="top"><span class="wm">PhotoQuest</span><span class="tag">Frontend · concept prototype</span></header>
+
+  <section class="hero">
+    <div class="kick">Stock photography platform — three connected frontends</div>
+    <h1>Sell photos. Win quests. Get paid in <span class="r">USD.</span></h1>
+    <p>Pick an entry point below. The three apps are linked — signing in opens the app, the admin login opens the console, and signing out returns here.</p>
+  </section>
+
+  <nav class="grid">
+    <a class="cardlink" href="app/">
+      <span class="no">01</span>
+      <div class="thumb"><img src="https://picsum.photos/seed/pqportal1/600/360" alt=""></div>
+      <h2>Public app &amp; Marketplace</h2>
+      <p>The creator-facing product: landing, marketplace, dashboard, upload, portfolio, contests, campaigns, earnings &amp; referral.</p>
+      <span class="go">Open the app →</span>
+    </a>
+    <a class="cardlink" href="auth/">
+      <span class="no">02</span>
+      <div class="thumb"><img src="https://picsum.photos/seed/pqportal2/600/360" alt=""></div>
+      <h2>Sign in &amp; Register</h2>
+      <p>Full auth flow — Creator / Buyer / Brand sign-up, email verify, 2FA, role-based onboarding, password recovery.</p>
+      <span class="go">Open sign-in →</span>
+    </a>
+    <a class="cardlink" href="admin/">
+      <span class="badge">Internal</span>
+      <span class="no">03</span>
+      <div class="thumb"><img src="https://picsum.photos/seed/pqportal3/600/360" alt=""></div>
+      <h2>Admin Console</h2>
+      <p>Staff operations: members &amp; plans, moderation, contests, brand campaigns, payouts &amp; reports — with create/edit forms.</p>
+      <span class="go">Open the console →</span>
+    </a>
+  </nav>
+
+  <footer class="foot">
+    <span>© 2026 PhotoQuest — concept prototype</span>
+    <span class="mono">Host this folder on any static host (Netlify · Vercel · GitHub Pages · cPanel)</span>
+  </footer>
+</body>
+</html>

@@ -1,6 +1,6 @@
 /* ============ STEP ROUTING ============ */
 var subByStep={
-  signin:'Welcome back', role:'Create your account', 'signup-creator':'Create your account',
+  welcome:'Welcome', signin:'Welcome back', role:'Create your account', 'signup-creator':'Create your account',
   'signup-buyer':'Create your account','signup-brand':'Create your account',
   verify:'Confirm your email','twofa':'Secure sign-in',
   'onboard-plan':'Set up your studio','onboard-payout':'Set up your studio',
@@ -87,7 +87,7 @@ goStep=function(id){
 
 /* ============ INIT ============ */
 renderPlanPick();
-goStep('signin');
+goStep('welcome');
 
 
 /* ============ CROSS-APP LINKS (combined frontend) ============ */

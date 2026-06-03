@@ -11,6 +11,7 @@ function goStep(id){
   document.querySelectorAll('.step').forEach(function(s){s.classList.toggle('active',s.id===id);});
   var sel=document.getElementById('stepNav');if(sel&&sel.value!==id)sel.value=id;
   document.querySelector('.auth-body').scrollTop=0;window.scrollTo({top:0});
+  history.replaceState(null,'','#'+id);
 }
 
 /* ============ PASSWORD SHOW/HIDE ============ */
@@ -87,7 +88,7 @@ goStep=function(id){
 
 /* ============ INIT ============ */
 renderPlanPick();
-goStep('welcome');
+(function(){var h=location.hash.slice(1);var valid=Object.keys(subByStep);goStep(valid.indexOf(h)>=0?h:'welcome');}());
 
 
 /* ============ CROSS-APP LINKS (combined frontend) ============ */

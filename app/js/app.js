@@ -4,6 +4,7 @@ function show(id){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.go===id));
   window.scrollTo({top:0});
   if(window.innerWidth<=768)toggleNav(false);
+  history.replaceState(null,'','#'+id);
 }
 document.addEventListener('click',function(e){
   var g=e.target.closest('[data-go]');
@@ -159,3 +160,4 @@ document.addEventListener('error',function(e){
 
 /* ============ INIT ============ */
 renderPlans();
+(function(){var h=location.hash.slice(1);var sc=['landing','pricing','marketplace','contests','campaigns','dashboard','upload','portfolio','earnings','referral'];show(sc.indexOf(h)>=0?h:'landing');}());

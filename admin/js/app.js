@@ -4,6 +4,7 @@ function show(id){
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.toggle('active',n.dataset.go===id);});
   window.scrollTo({top:0});
   if(window.innerWidth<=768)toggleNav(false);
+  history.replaceState(null,'','#'+id);
 }
 document.addEventListener('click',function(e){var g=e.target.closest('[data-go]');if(g){e.preventDefault();show(g.dataset.go);}});
 function toggleNav(open){document.getElementById('sidebar').classList.toggle('open',open);document.getElementById('ov').classList.toggle('show',open);}
@@ -386,3 +387,6 @@ function openNewPlanForm(){
     closeModal();
   });
 }
+
+/* ============ INIT ============ */
+(function(){var h=location.hash.slice(1);var sc=['a-overview','a-members','a-market','a-contests','a-campaigns','a-payouts'];show(sc.indexOf(h)>=0?h:'a-overview');}());

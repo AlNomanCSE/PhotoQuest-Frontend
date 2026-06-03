@@ -55,11 +55,91 @@ function archItem(seed,w,h,title,price){
     +'<figcaption class="cap"><span class="ct">'+title+'</span><span class="cp">$'+price+'</span></figcaption></figure>';
 }
 
-/* ============ MARKETPLACE ============ */
-var mkTitles=['Neon Alley','Misty Hills','Harbor Dawn','Old Town','Market Noon','Rooftop Dusk','Pier 7','Tea Garden','Night Bus','Backstreet','Coastline','Stairwell'];
-document.getElementById('mkGrid').innerHTML=mkTitles.map(function(t,i){
-  return archItem('mk'+i,500,620,t,[5,8,12,15,9,18][i%6]);
-}).join('');
+/* ============ MARKETPLACE DATA ============ */
+var mkPhotos=[
+  {idx:0,seed:'mk0',title:'Neon Alley',cat:'Street',price:5,creator:'Ayesha Rahman',cseed:'pquser',tags:['neon','night','street','urban','city']},
+  {idx:1,seed:'mk1',title:'Misty Hills',cat:'Nature',price:8,creator:'Nadia Karim',cseed:'m2',tags:['nature','hills','mist','landscape','green']},
+  {idx:2,seed:'mk2',title:'Harbor Dawn',cat:'Travel',price:12,creator:'K. Ahmed',cseed:'m6',tags:['harbor','dawn','travel','water','boats']},
+  {idx:3,seed:'mk3',title:'Old Town',cat:'Architecture',price:15,creator:'Rafi Hasan',cseed:'m1',tags:['architecture','old','town','heritage','streets']},
+  {idx:4,seed:'mk4',title:'Market Noon',cat:'Street',price:9,creator:'Samiul Islam',cseed:'m4',tags:['market','street','people','culture','food']},
+  {idx:5,seed:'mk5',title:'Rooftop Dusk',cat:'Urban',price:18,creator:'Ayesha Rahman',cseed:'pquser',tags:['rooftop','dusk','urban','skyline','sunset']},
+  {idx:6,seed:'mk6',title:'Pier 7',cat:'Travel',price:7,creator:'Nadia Karim',cseed:'m2',tags:['pier','travel','ocean','evening','light']},
+  {idx:7,seed:'mk7',title:'Tea Garden',cat:'Nature',price:14,creator:'K. Ahmed',cseed:'m6',tags:['tea','garden','nature','green','peaceful']},
+  {idx:8,seed:'mk8',title:'Night Bus',cat:'Street',price:10,creator:'Rafi Hasan',cseed:'m1',tags:['bus','night','street','motion','city']},
+  {idx:9,seed:'mk9',title:'Backstreet',cat:'Urban',price:6,creator:'Samiul Islam',cseed:'m4',tags:['backstreet','alley','urban','shadow','texture']},
+  {idx:10,seed:'mk10',title:'Coastline',cat:'Nature',price:20,creator:'Ayesha Rahman',cseed:'pquser',tags:['coast','ocean','nature','aerial','blue']},
+  {idx:11,seed:'mk11',title:'Stairwell',cat:'Architecture',price:11,creator:'Nadia Karim',cseed:'m2',tags:['stairs','architecture','minimal','light','interior']}
+];
+
+function mkPhotoItem(p){
+  return '<figure class="arch-item mk-photo" onclick="openPhoto(mkPhotos['+p.idx+'])">'
+    +'<div class="ai-img"><img loading="lazy" src="'+pic(p.seed,500,620)+'" alt="'+p.title+'"></div>'
+    +'<figcaption class="cap"><span class="ct">'+p.title+'</span><span class="cp">$'+p.price+'</span></figcaption>'
+    +'</figure>';
+}
+
+function mkRender(photos){
+  document.getElementById('mkGrid').innerHTML=photos.length
+    ?photos.map(mkPhotoItem).join('')
+    :'<p style="padding:40px 0;color:var(--muted);font-family:var(--mono);font-size:13px">No photos match — try a different search or filter.</p>';
+}
+mkRender(mkPhotos);
+
+/* ---- category filter ---- */
+function mkCat(cat,el){
+  document.querySelectorAll('.mk-cats .fl').forEach(function(a){a.classList.remove('on');});
+  el.classList.add('on');
+  var filtered=cat==='All'?mkPhotos:mkPhotos.filter(function(p){return p.cat===cat;});
+  document.getElementById('mkResultCount').textContent=(filtered.length*201014).toLocaleString()+' results';
+  mkRender(filtered);
+}
+
+/* ---- search ---- */
+function mkSearch(){
+  var q=(document.getElementById('mkSearchInput').value||'').toLowerCase().trim();
+  if(!q){mkRender(mkPhotos);document.getElementById('mkResultCount').textContent='2,412,304 results';return;}
+  var res=mkPhotos.filter(function(p){
+    return p.title.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||p.tags.some(function(t){return t.includes(q);});
+  });
+  document.getElementById('mkResultCount').textContent=res.length+' result'+(res.length!==1?'s':'');
+  mkRender(res);
+}
+function mkLiveSearch(q){
+  if(!q){mkRender(mkPhotos);document.getElementById('mkResultCount').textContent='2,412,304 results';return;}
+  mkSearch();
+}
+
+/* ---- sort ---- */
+function mkSortChange(v){
+  var sorted=mkPhotos.slice();
+  if(v==='price-asc')sorted.sort(function(a,b){return a.price-b.price;});
+  else if(v==='price-desc')sorted.sort(function(a,b){return b.price-a.price;});
+  else if(v==='newest')sorted=sorted.reverse();
+  mkRender(sorted);
+}
+
+/* ---- filter panel ---- */
+function toggleFilters(btn){
+  var panel=document.getElementById('filterPanel');
+  var open=panel.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  btn.textContent=open?'Filter ▴':'Filter ▾';
+}
+function fpSelect(group,el){
+  var container=document.getElementById('fp-'+group);
+  container.querySelectorAll('.fp-opt').forEach(function(o){o.classList.remove('on');});
+  el.classList.add('on');
+}
+function fpClear(){
+  ['license','price','orientation','creator'].forEach(function(g){
+    var c=document.getElementById('fp-'+g);
+    if(c){c.querySelectorAll('.fp-opt').forEach(function(o){o.classList.remove('on');});c.querySelectorAll('.fp-opt')[0].classList.add('on');}
+  });
+}
+function mkLoadMore(btn){
+  btn.textContent='Loading…';
+  setTimeout(function(){btn.textContent='Load more photos';},900);
+}
 
 /* ============ PORTFOLIO ============ */
 var pfH=[640,440,560,720,500,600,420,680,540,480,620];
@@ -158,6 +238,145 @@ document.addEventListener('error',function(e){
   if(e.target&&e.target.tagName==='IMG'){e.target.style.background='var(--paper-2)';e.target.removeAttribute('src');}
 },true);
 
+/* ============ PHOTO DETAIL ============ */
+var currentPhoto=null;
+var selectedLicense={type:'standard',price:12,name:'Standard License'};
+
+function openPhoto(p){
+  currentPhoto=p;
+  /* update standard card price to match this photo */
+  var stdCard=document.querySelector('.lic-card[data-lic="standard"]');
+  stdCard.querySelector('.lic-price').textContent='$'+p.price;
+  /* reset selection to standard */
+  document.querySelectorAll('.lic-card').forEach(function(c){c.classList.remove('sel');});
+  stdCard.classList.add('sel');
+  selectedLicense={type:'standard',price:p.price,name:'Standard License'};
+  /* fill detail */
+  document.getElementById('pdPhoto').src=pic(p.seed,900,600);
+  document.getElementById('pdTitle').textContent=p.title;
+  document.getElementById('pdCat').textContent=p.cat;
+  document.getElementById('pdCreatorName').textContent=p.creator;
+  document.getElementById('pdCreatorAvatar').src=pic(p.cseed,80,80);
+  document.getElementById('pdTags').innerHTML=p.tags.map(function(t){return '<span class="chipm">'+t+'</span>';}).join('');
+  updateBuyBtn();
+  /* similar photos */
+  var similar=mkPhotos.filter(function(x){return x.idx!==p.idx;}).slice(0,4);
+  document.getElementById('similarGrid').innerHTML=similar.map(mkPhotoItem).join('');
+  show('photo-detail');
+}
+
+function selectLicense(el){
+  document.querySelectorAll('.lic-card').forEach(function(c){c.classList.remove('sel');});
+  el.classList.add('sel');
+  var prices={standard:currentPhoto?currentPhoto.price:12, extended:49, enterprise:199};
+  var names={standard:'Standard License', extended:'Extended License', enterprise:'Enterprise License'};
+  var t=el.dataset.lic;
+  selectedLicense={type:t, price:prices[t], name:names[t]};
+  updateBuyBtn();
+}
+
+function updateBuyBtn(){
+  var btn=document.getElementById('pdBuyBtn');
+  if(btn)btn.textContent='Buy '+selectedLicense.name+' — $'+selectedLicense.price;
+}
+
+/* ============ CHECKOUT ============ */
+var licFeats={
+  standard:['✓ Digital & web use','✓ Social media & presentations','✓ Editorial & advertising','✓ Print up to 500,000 copies','✗ Unlimited print runs','✗ Resale or sub-licensing'],
+  extended:['✓ Everything in Standard','✓ Unlimited print runs','✓ Resale & merchandise','✓ TV, film & broadcast','✓ OEM & product packaging','✗ White-label redistribution'],
+  enterprise:['✓ Everything in Extended','✓ White-label redistribution','✓ Multi-seat usage','✓ Certificate of authenticity','✓ Source RAW file included','✓ Priority support']
+};
+var licScopes={
+  standard:'personal and commercial use — web, social, print up to 500k copies',
+  extended:'unlimited commercial use including resale, merchandise and broadcast',
+  enterprise:'full enterprise use including white-label redistribution and multi-seat'
+};
+
+function goCheckout(){
+  if(!currentPhoto)return;
+  document.getElementById('coForm').style.display='block';
+  document.getElementById('coSuccess').style.display='none';
+  document.getElementById('coPhoto').src=pic(currentPhoto.seed,160,160);
+  document.getElementById('coTitle').textContent=currentPhoto.title;
+  document.getElementById('coLicName').textContent=selectedLicense.name;
+  document.getElementById('coCreator').textContent='by '+currentPhoto.creator;
+  document.getElementById('coPrice').textContent='$'+selectedLicense.price;
+  document.getElementById('coSubtotal').textContent='$'+selectedLicense.price+'.00';
+  document.getElementById('coPlatformFee').textContent='$'+Math.round(selectedLicense.price*.13)+'.00 (included)';
+  document.getElementById('coTotal').textContent='$'+selectedLicense.price+'.00';
+  document.getElementById('coPlaceBtn').textContent='Place order — $'+selectedLicense.price+'.00';
+  document.getElementById('coLicScope').textContent=licScopes[selectedLicense.type];
+  var feats=licFeats[selectedLicense.type];
+  document.getElementById('coLicFeats').innerHTML=feats.map(function(f){
+    return '<li'+(f.startsWith('✗')?' class="off"':'')+'>'+f+'</li>';
+  }).join('');
+  show('checkout');
+}
+
+function completePurchase(){
+  document.getElementById('coForm').style.display='none';
+  document.getElementById('coSuccess').style.display='block';
+  document.getElementById('dlPhoto').src=pic(currentPhoto.seed,160,160);
+  document.getElementById('dlTitle').textContent=currentPhoto.title;
+  document.getElementById('dlLicName').textContent=selectedLicense.name;
+  addOrder(currentPhoto,selectedLicense);
+  window.scrollTo({top:0});
+}
+
+function simulateDownload(btn){
+  btn.textContent='Preparing…';
+  setTimeout(function(){btn.textContent='⬇ Download full resolution';},1400);
+}
+
+/* ============ ORDERS ============ */
+var ordersData=[
+  {id:'ord1',photo:{seed:'mk0',title:'Neon Alley',creator:'Ayesha Rahman'},lic:'Standard License',licType:'standard',date:'Jun 02, 2026',price:5},
+  {id:'ord2',photo:{seed:'mk5',title:'Rooftop Dusk',creator:'Ayesha Rahman'},lic:'Extended License',licType:'extended',date:'May 28, 2026',price:49},
+  {id:'ord3',photo:{seed:'mk2',title:'Harbor Dawn',creator:'K. Ahmed'},lic:'Standard License',licType:'standard',date:'May 15, 2026',price:12},
+  {id:'ord4',photo:{seed:'mk10',title:'Coastline',creator:'Ayesha Rahman'},lic:'Enterprise License',licType:'enterprise',date:'Apr 30, 2026',price:199}
+];
+
+function addOrder(photo,license){
+  ordersData.unshift({id:'ord-new-'+Date.now(),photo:{seed:photo.seed,title:photo.title,creator:photo.creator},lic:license.name,licType:license.type,date:'Jun 03, 2026',price:license.price});
+  renderOrders(ordersData);
+}
+
+function ordersFilter(type,el){
+  document.querySelectorAll('#orders .seg button').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  renderOrders(type==='all'?ordersData:ordersData.filter(function(o){return o.licType===type;}));
+}
+
+function renderOrders(data){
+  var spent=data.reduce(function(s,o){return s+o.price;},0);
+  document.getElementById('ordersStats').innerHTML=[
+    ['Total orders',data.length,'all licenses'],
+    ['Photos licensed',data.length,'unique works'],
+    ['Total spent','$'+spent,data.length+' transactions'],
+    ['Re-downloads','Unlimited','royalty-free forever']
+  ].map(function(s){return '<div class="stat"><span class="st-label">'+s[0]+'</span><span class="st-val">'+s[1]+'</span><span class="st-delta">'+s[2]+'</span></div>';}).join('');
+  document.getElementById('ordersList').innerHTML=data.length
+    ?data.map(function(o){
+        return '<div class="order-item">'
+          +'<img class="oi-thumb" src="'+pic(o.photo.seed,160,160)+'" alt="">'
+          +'<div><div class="oi-title">'+o.photo.title+'</div>'
+          +'<span class="oi-lic">'+o.lic+'</span>'
+          +'<div class="oi-date">by '+o.photo.creator+' · '+o.date+'</div></div>'
+          +'<div class="oi-actions">'
+          +'<span class="oi-price">$'+o.price+'.00</span>'
+          +'<button class="oi-dl-btn" onclick="simulateDownload(this)">⬇ Download</button>'
+          +'<span class="tg" style="font-size:9px">Licensed ✓</span>'
+          +'</div></div>';
+      }).join('')
+    :'<p style="padding:32px 20px;color:var(--muted);font-size:14px">No orders yet. <a data-go="marketplace" style="color:var(--red);font-weight:600;cursor:pointer">Browse the marketplace →</a></p>';
+}
+renderOrders(ordersData);
+
 /* ============ INIT ============ */
 renderPlans();
-(function(){var h=location.hash.slice(1);var sc=['landing','pricing','marketplace','contests','campaigns','dashboard','upload','portfolio','earnings','referral'];show(sc.indexOf(h)>=0?h:'landing');}());
+(function(){
+  var h=location.hash.slice(1);
+  var sc=['landing','pricing','marketplace','contests','campaigns','dashboard','upload','portfolio','earnings','referral','orders','photo-detail','checkout'];
+  if(h==='photo-detail'||h==='checkout')h='marketplace';
+  show(sc.indexOf(h)>=0?h:'landing');
+}());

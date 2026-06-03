@@ -37,6 +37,7 @@
     <a class="nav-item" data-go="portfolio"><span class="ni-no">08</span>Portfolio</a>
     <a class="nav-item" data-go="earnings"><span class="ni-no">09</span>Earnings &amp; Payouts</a>
     <a class="nav-item" data-go="referral"><span class="ni-no">10</span>Referral</a>
+    <a class="nav-item" data-go="orders"><span class="ni-no">11</span>Orders &amp; Downloads</a>
   </nav>
 
   <div class="side-foot">
@@ -52,7 +53,7 @@
     <button class="hamburger" onclick="toggleNav(true)" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="searchbar">
       <span class="sb-label">Search</span>
-      <input placeholder="“sunset miami”, “urban night”…">
+      <input placeholder=""sunset miami", "urban night"…" onkeydown="if(event.key==='Enter'){show('marketplace');document.getElementById('mkSearchInput').value=this.value;mkSearch();}">
     </div>
     <div class="topbar-spacer"></div>
     <button class="t-link" onclick="toggleTheme()" id="themeBtn">Dark</button>
@@ -84,8 +85,8 @@
         <div class="hero-lead">
           <p>A working marketplace for photographers — license your shots, enter themed contests, and take on paid brand campaigns. Payouts settle to a Stripe virtual card the moment you clear fifty dollars.</p>
           <div class="hero-search">
-            <input placeholder="Search 2.4M photos">
-            <button class="link-u red">Browse →</button>
+            <input placeholder="Search 2.4M photos" id="heroSearch">
+            <button class="link-u red" onclick="show('marketplace');document.getElementById('mkSearchInput').value=document.getElementById('heroSearch').value;mkSearch();">Browse →</button>
           </div>
         </div>
         <div class="hero-stats">
@@ -147,7 +148,7 @@
 
   <!-- ========================================================= 3. DASHBOARD -->
   <section class="screen" id="dashboard">
-    <div class="page-head"><div><div class="eyebrow">Studio / 06</div><h1>Dashboard</h1><p>Morning, Ayesha — here’s where things stand.</p></div>
+    <div class="page-head"><div><div class="eyebrow">Studio / 06</div><h1>Dashboard</h1><p>Morning, Ayesha — here's where things stand.</p></div>
       <button class="btn-solid" data-go="upload">Quick upload</button></div>
 
     <div class="stat-row" id="statRow"></div>
@@ -246,13 +247,266 @@
   <section class="screen" id="marketplace">
     <div class="page-head"><div><div class="eyebrow">Discover / 03</div><h1>Marketplace</h1>
       <p>2.4M royalty-free photographs. Standard &amp; extended licenses, priced in USD.</p></div></div>
-    <div class="mk-bar">
-      <div class="mk-filters" id="mkFilters">
-        <a class="fl on">All</a><a class="fl">Travel</a><a class="fl">Street</a><a class="fl">Food</a><a class="fl">Nature</a><a class="fl">Portrait</a><a class="fl">Architecture</a>
+
+    <div class="mk-search-row">
+      <div class="mk-search-box">
+        <span class="mk-s-icon">↗</span>
+        <input id="mkSearchInput" class="mk-s-input" placeholder='Search 2.4M photos — "sunset", "urban", "travel"…' oninput="mkLiveSearch(this.value)" onkeydown="if(event.key==='Enter')mkSearch()">
+        <button class="btn-solid" onclick="mkSearch()">Search</button>
       </div>
-      <span class="mk-sort mono">Sort — Trending ▾</span>
     </div>
+
+    <div class="mk-toolbar">
+      <div class="mk-cats" id="mkCats">
+        <a class="fl on" onclick="mkCat('All',this)">All</a>
+        <a class="fl" onclick="mkCat('Travel',this)">Travel</a>
+        <a class="fl" onclick="mkCat('Street',this)">Street</a>
+        <a class="fl" onclick="mkCat('Food',this)">Food</a>
+        <a class="fl" onclick="mkCat('Nature',this)">Nature</a>
+        <a class="fl" onclick="mkCat('Portrait',this)">Portrait</a>
+        <a class="fl" onclick="mkCat('Architecture',this)">Architecture</a>
+        <a class="fl" onclick="mkCat('Urban',this)">Urban</a>
+      </div>
+      <div class="mk-right">
+        <button class="mk-filter-btn" id="filterToggle" onclick="toggleFilters(this)">Filter ▾</button>
+        <select class="mk-sort-sel" onchange="mkSortChange(this.value)">
+          <option value="trending">Trending</option>
+          <option value="newest">Newest</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="popular">Most popular</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter-panel" id="filterPanel">
+      <div class="fp-group">
+        <div class="fp-label">License type</div>
+        <div class="fp-opts" id="fp-license">
+          <span class="fp-opt on" onclick="fpSelect('license',this)">All</span>
+          <span class="fp-opt" onclick="fpSelect('license',this)">Standard</span>
+          <span class="fp-opt" onclick="fpSelect('license',this)">Extended</span>
+        </div>
+      </div>
+      <div class="fp-group">
+        <div class="fp-label">Price range</div>
+        <div class="fp-opts" id="fp-price">
+          <span class="fp-opt on" onclick="fpSelect('price',this)">Any</span>
+          <span class="fp-opt" onclick="fpSelect('price',this)">Under $10</span>
+          <span class="fp-opt" onclick="fpSelect('price',this)">$10–$20</span>
+          <span class="fp-opt" onclick="fpSelect('price',this)">$20+</span>
+        </div>
+      </div>
+      <div class="fp-group">
+        <div class="fp-label">Orientation</div>
+        <div class="fp-opts" id="fp-orientation">
+          <span class="fp-opt on" onclick="fpSelect('orientation',this)">Any</span>
+          <span class="fp-opt" onclick="fpSelect('orientation',this)">Landscape</span>
+          <span class="fp-opt" onclick="fpSelect('orientation',this)">Portrait</span>
+          <span class="fp-opt" onclick="fpSelect('orientation',this)">Square</span>
+        </div>
+      </div>
+      <div class="fp-group">
+        <div class="fp-label">Creator</div>
+        <div class="fp-opts" id="fp-creator">
+          <span class="fp-opt on" onclick="fpSelect('creator',this)">Any</span>
+          <span class="fp-opt" onclick="fpSelect('creator',this)">Following</span>
+          <span class="fp-opt" onclick="fpSelect('creator',this)">Verified</span>
+        </div>
+      </div>
+      <button class="fp-clear" onclick="fpClear()">Clear all</button>
+    </div>
+
+    <div class="mk-results-bar">
+      <span id="mkResultCount" class="mono">2,412,304 results</span>
+    </div>
+
     <div class="arch-grid" id="mkGrid"></div>
+
+    <div class="mk-load-more">
+      <button class="btn-line" onclick="mkLoadMore(this)">Load more photos</button>
+      <span class="mono" style="color:var(--muted);font-size:12px">Showing 12 of 2,412,304</span>
+    </div>
+  </section>
+
+  <!-- ========================================================= PHOTO DETAIL -->
+  <section class="screen" id="photo-detail">
+    <button class="back-btn" onclick="show('marketplace')">← Back to Marketplace</button>
+
+    <div class="pd-layout">
+      <div class="pd-img-col">
+        <div class="pd-img-wrap">
+          <img id="pdPhoto" src="" alt="">
+          <div class="pd-watermark">© PhotoQuest — preview only</div>
+        </div>
+        <div class="pd-photo-meta">
+          <div class="pd-meta-row"><span class="pd-meta-label">Resolution</span><span class="mono">5472 × 3648 px</span></div>
+          <div class="pd-meta-row"><span class="pd-meta-label">File size</span><span class="mono">28.4 MB · JPEG</span></div>
+          <div class="pd-meta-row"><span class="pd-meta-label">Category</span><span id="pdCat" class="mono"></span></div>
+          <div class="pd-meta-row"><span class="pd-meta-label">Uploaded</span><span class="mono">May 12, 2026</span></div>
+        </div>
+        <div class="pd-tags-row">
+          <span class="pd-meta-label">Tags</span>
+          <div class="chips" id="pdTags" style="margin-top:10px"></div>
+        </div>
+      </div>
+
+      <div class="pd-buy-col">
+        <div class="pd-creator-row">
+          <img id="pdCreatorAvatar" class="pd-c-avatar" src="" alt="">
+          <div>
+            <div id="pdCreatorName" class="pd-c-name"></div>
+            <div class="pd-c-sub mono">Verified creator · <span class="red">Pro</span></div>
+          </div>
+          <button class="btn-line" style="margin-left:auto;padding:7px 14px;font-size:12.5px">Follow</button>
+        </div>
+
+        <h1 id="pdTitle" class="pd-title"></h1>
+
+        <div class="pd-lic-head">Choose a license</div>
+        <div class="pd-licenses">
+          <div class="lic-card sel" data-lic="standard" onclick="selectLicense(this)">
+            <div class="lic-top">
+              <div><div class="lic-name">Standard License</div><div class="lic-use">Web, social, print up to 500k copies</div></div>
+              <div class="lic-price" id="stdPrice">$12</div>
+            </div>
+            <ul class="lic-feats">
+              <li>✓ Digital &amp; web use</li>
+              <li>✓ Social media &amp; presentations</li>
+              <li>✓ Editorial &amp; advertising</li>
+              <li>✓ Print up to 500,000 copies</li>
+              <li class="off">✗ Unlimited print runs</li>
+              <li class="off">✗ Resale or sub-licensing</li>
+            </ul>
+          </div>
+
+          <div class="lic-card" data-lic="extended" onclick="selectLicense(this)">
+            <div class="lic-top">
+              <div><div class="lic-name">Extended License <span class="lic-pop">Most flexible</span></div><div class="lic-use">Unlimited print, resale, broadcast</div></div>
+              <div class="lic-price">$49</div>
+            </div>
+            <ul class="lic-feats">
+              <li>✓ Everything in Standard</li>
+              <li>✓ Unlimited print runs</li>
+              <li>✓ Resale &amp; merchandise</li>
+              <li>✓ TV, film &amp; broadcast</li>
+              <li>✓ OEM &amp; product packaging</li>
+              <li class="off">✗ White-label redistribution</li>
+            </ul>
+          </div>
+
+          <div class="lic-card" data-lic="enterprise" onclick="selectLicense(this)">
+            <div class="lic-top">
+              <div><div class="lic-name">Enterprise License</div><div class="lic-use">Full commercial, white-label, OEM</div></div>
+              <div class="lic-price">$199</div>
+            </div>
+            <ul class="lic-feats">
+              <li>✓ Everything in Extended</li>
+              <li>✓ White-label redistribution</li>
+              <li>✓ Multi-seat usage</li>
+              <li>✓ Certificate of authenticity</li>
+              <li>✓ Source RAW file included</li>
+              <li>✓ Priority support</li>
+            </ul>
+          </div>
+        </div>
+
+        <button class="btn-solid full" id="pdBuyBtn" onclick="goCheckout()">Buy Standard License — $12</button>
+        <p class="pd-foot-note">Instant download · Royalty-free forever · <a onclick="show('marketplace')">Full license terms</a></p>
+
+        <div class="pd-stats">
+          <div class="pd-stat"><span class="pd-stat-n">1,247</span><span class="pd-stat-t">Downloads</span></div>
+          <div class="pd-stat"><span class="pd-stat-n">4.9</span><span class="pd-stat-t">Rating</span></div>
+          <div class="pd-stat"><span class="pd-stat-n">38</span><span class="pd-stat-t">In wishlists</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-head" style="margin-top:48px">
+      <span class="ed-no">—</span><h2>Similar photos</h2><a onclick="show('marketplace')">Browse all →</a>
+    </div>
+    <div class="arch-grid" id="similarGrid"></div>
+  </section>
+
+  <!-- ========================================================= CHECKOUT -->
+  <section class="screen" id="checkout">
+    <div id="coForm">
+      <button class="back-btn" onclick="show('photo-detail')">← Back to photo</button>
+      <div class="page-head">
+        <div><div class="eyebrow">Purchase / License</div><h1>Complete your order</h1></div>
+      </div>
+
+      <div class="co-layout">
+        <div class="co-left">
+          <div class="co-summary">
+            <img id="coPhoto" src="" alt="" class="co-thumb">
+            <div class="co-sum-info">
+              <div id="coTitle" class="co-sum-title"></div>
+              <div id="coLicName" class="co-sum-lic mono"></div>
+              <div id="coCreator" class="co-sum-creator"></div>
+            </div>
+            <div id="coPrice" class="co-sum-price"></div>
+          </div>
+
+          <div class="co-lic-detail">
+            <div class="co-sec-head">License includes</div>
+            <ul class="co-lic-list" id="coLicFeats"></ul>
+          </div>
+
+          <div class="co-note">
+            <span class="mono red" style="flex-shrink:0;padding-top:1px">Note</span>
+            <p>This license covers <b id="coLicScope"></b>. Your certificate of purchase will be emailed and available in Orders &amp; Downloads.</p>
+          </div>
+        </div>
+
+        <div class="co-right">
+          <div class="co-sec-head">Payment method</div>
+          <div class="co-card-sel">
+            <div class="co-card active">
+              <div class="co-card-ico">VISA</div>
+              <div>
+                <div class="co-card-name">Visa ending 4242</div>
+                <div class="co-card-exp mono">Expires 09/28</div>
+              </div>
+              <span class="co-card-check">✓</span>
+            </div>
+            <button class="btn-line full" style="margin-top:10px">+ Add new card</button>
+          </div>
+
+          <div class="co-total-block">
+            <div class="co-sec-head" style="border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:14px">Order total</div>
+            <div class="co-line"><span>Subtotal</span><span id="coSubtotal" class="mono"></span></div>
+            <div class="co-line"><span>Tax</span><span class="mono">$0.00</span></div>
+            <div class="co-line"><span style="font-size:12px;color:var(--muted)">Platform fee (included)</span><span id="coPlatformFee" class="mono" style="color:var(--muted)"></span></div>
+            <div class="co-line total"><span>Total</span><span id="coTotal" class="mono"></span></div>
+          </div>
+
+          <button class="btn-solid full" id="coPlaceBtn" onclick="completePurchase()">Place order</button>
+          <p class="co-secure mono">🔒 Secured by Stripe · Instant download after payment</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="coSuccess" style="display:none">
+      <div class="dl-success">
+        <div class="dl-check">✓</div>
+        <h2>Purchase complete!</h2>
+        <p class="dl-lead">Your license is ready. Download will start automatically — or click below.</p>
+        <div class="dl-card">
+          <img id="dlPhoto" src="" alt="" class="dl-thumb">
+          <div class="dl-info">
+            <div id="dlTitle" class="dl-title"></div>
+            <div id="dlLicName" class="dl-lic mono"></div>
+            <div class="dl-meta mono">5472 × 3648 px · JPEG · 28.4 MB</div>
+          </div>
+        </div>
+        <div class="dl-actions">
+          <button class="btn-solid" onclick="simulateDownload(this)">⬇ Download full resolution</button>
+          <button class="btn-line" onclick="show('orders')">View in Orders</button>
+        </div>
+        <p class="dl-note">A copy of your license certificate has been sent to <b>you@mail.com</b>. Royalty-free forever.</p>
+      </div>
+    </div>
   </section>
 
   <!-- ========================================================= 7. CONTESTS -->
@@ -335,6 +589,26 @@
     </div>
     <div class="panel" style="margin-top:22px"><div class="panel-title">Your referrals</div>
       <table class="tbl"><thead><tr><th>Friend</th><th>Joined</th><th>Plan</th><th>Status</th><th class="r">Bonus</th></tr></thead><tbody id="refBody"></tbody></table></div>
+  </section>
+
+  <!-- ========================================================= 11. ORDERS -->
+  <section class="screen" id="orders">
+    <div class="page-head">
+      <div><div class="eyebrow">Studio / 11</div><h1>Orders &amp; Downloads</h1>
+      <p>All your licensed photos — re-download anytime, royalty-free forever.</p></div>
+      <button class="btn-solid" data-go="marketplace">Browse marketplace →</button>
+    </div>
+
+    <div class="stat-row" id="ordersStats"></div>
+
+    <div class="seg" style="margin-bottom:22px">
+      <button class="on" onclick="ordersFilter('all',this)">All orders</button>
+      <button onclick="ordersFilter('standard',this)">Standard</button>
+      <button onclick="ordersFilter('extended',this)">Extended</button>
+      <button onclick="ordersFilter('enterprise',this)">Enterprise</button>
+    </div>
+
+    <div class="orders-list" id="ordersList"></div>
   </section>
 
 </div><!-- /main -->

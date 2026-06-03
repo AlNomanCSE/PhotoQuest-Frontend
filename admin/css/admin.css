@@ -139,3 +139,6 @@ select.fld{appearance:none;cursor:pointer}
 .pm-row .pm-edit:hover{border-color:var(--ink);color:var(--ink)}
 .pm-right{display:flex;align-items:center;gap:14px}
 @media(max-width:520px){.fgrid{grid-template-columns:1fr}}
+
+/* ============ LEARNING CENTER (admin) ============ */
+.lrn-req-toggle{white-space:nowrap}

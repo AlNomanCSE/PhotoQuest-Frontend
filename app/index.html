@@ -38,6 +38,7 @@
     <a class="nav-item" data-go="earnings"><span class="ni-no">09</span>Earnings &amp; Payouts</a>
     <a class="nav-item" data-go="referral"><span class="ni-no">10</span>Referral</a>
     <a class="nav-item" data-go="orders"><span class="ni-no">11</span>Orders &amp; Downloads</a>
+    <a class="nav-item" data-go="learning"><span class="ni-no">12</span>Learning Center<span class="ni-flag">3 req</span></a>
   </nav>
 
   <div class="side-foot">
@@ -611,8 +612,71 @@
     <div class="orders-list" id="ordersList"></div>
   </section>
 
+  <!-- ========================================================= 12. LEARNING CENTER -->
+  <section class="screen" id="learning">
+    <div class="page-head">
+      <div><div class="eyebrow">Studio / 12</div><h1>Learning Center</h1>
+      <p>Training materials, compliance guides and tutorials. Required items must be completed before accessing certain platform features.</p></div>
+    </div>
+
+    <div class="lrn-progress">
+      <div class="lrn-prog-top">
+        <div><span class="lrn-prog-label">Your completion</span><span class="lrn-prog-frac" id="lrnProgFrac">2 of 8 completed</span></div>
+        <span class="lrn-prog-pct mono" id="lrnProgPct">25%</span>
+      </div>
+      <div class="meter" style="height:8px;margin:10px 0"><div class="meter-fill" id="lrnProgBar" style="width:25%"></div></div>
+      <div class="lrn-prog-foot"><span id="lrnReqStatus" class="lrn-warn">⚠ 1 of 5 required items completed — some features are gated until you finish</span></div>
+    </div>
+
+    <div class="lrn-req-strip" id="lrnReqStrip"></div>
+
+    <div class="lrn-toolbar">
+      <div class="seg">
+        <button class="on" onclick="lrnTab('all',this)">All content</button>
+        <button onclick="lrnTab('required',this)">Required</button>
+        <button onclick="lrnTab('completed',this)">Completed</button>
+        <button onclick="lrnTab('todo',this)">To do</button>
+      </div>
+      <div class="lrn-cats" id="lrnCats">
+        <a class="fl on" onclick="lrnCat('All',this)">All</a>
+        <a class="fl" onclick="lrnCat('Getting Started',this)">Getting Started</a>
+        <a class="fl" onclick="lrnCat('Marketplace',this)">Marketplace</a>
+        <a class="fl" onclick="lrnCat('Contests',this)">Contests</a>
+        <a class="fl" onclick="lrnCat('Brand Campaigns',this)">Brand Campaigns</a>
+        <a class="fl" onclick="lrnCat('Compliance',this)">Compliance</a>
+      </div>
+    </div>
+
+    <div class="lrn-count mono" id="lrnCount">8 items</div>
+    <div class="lrn-grid" id="lrnGrid"></div>
+  </section>
+
 </div><!-- /main -->
 </div><!-- /app -->
+
+<!-- ========== LEARNING VIEWER OVERLAY ========== -->
+<div class="lrn-viewer" id="lrnViewer">
+  <div class="lrn-viewer-bg" onclick="lrnViewerClose()"></div>
+  <div class="lrn-viewer-panel">
+    <div class="lrn-vp-head">
+      <h2 id="lrnViewerTitle">Title</h2>
+      <button class="lrn-vp-close" onclick="lrnViewerClose()">✕</button>
+    </div>
+    <div class="lrn-vp-body">
+      <img class="lrn-vp-thumb" id="lrnViewerThumb" src="" alt="">
+      <div class="lrn-vp-info">
+        <div class="lrn-vp-meta">
+          <span id="lrnViewerCat"></span>
+          <span class="lrn-vp-req" id="lrnViewerRequired" style="display:none">Required</span>
+        </div>
+        <p class="lrn-vp-desc" id="lrnViewerDesc"></p>
+        <button class="btn-solid full" id="lrnViewerComplete">Mark as watched</button>
+        <p class="lrn-vp-note">Completing this item updates your progress and unlocks related features.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="js/app.js"></script>
 </body>
 </html>

@@ -388,5 +388,126 @@ function openNewPlanForm(){
   });
 }
 
+/* ============ LEARNING CENTER (ADMIN) ============ */
+var adminLrnData=[
+  {id:'lrn1',title:'Getting Started with PhotoQuest',cat:'Getting Started',type:'video',duration:'8 min',required:true,desc:'An introduction to the platform — set up your profile, upload your first photo, and configure your payout method.',views:2840,seed:'lc1'},
+  {id:'lrn2',title:'How to License Your Photos',cat:'Marketplace',type:'video',duration:'12 min',required:true,desc:'Walk through the licensing workflow — standard vs extended vs enterprise, pricing strategy, and how buyers find your work.',views:1920,seed:'lc2'},
+  {id:'lrn3',title:'Copyright & IP Compliance',cat:'Compliance',type:'article',duration:'5 min read',required:true,desc:'Understand your rights and responsibilities as a content creator — what you can and cannot upload, model releases, and property rights.',views:3210,seed:'lc3'},
+  {id:'lrn4',title:'Entering Contests — Rules & Strategy',cat:'Contests',type:'guide',duration:'6 min',required:false,desc:'How the weekly and monthly quests work, what judges look for, and how prize distribution works across tiers.',views:1540,seed:'lc4'},
+  {id:'lrn5',title:'Brand Campaign Guidelines',cat:'Brand Campaigns',type:'video',duration:'15 min',required:true,desc:'Everything about applying to brand campaigns — brief interpretation, style expectations and payment timelines.',views:1180,seed:'lc5'},
+  {id:'lrn6',title:'Tax & Payout Information',cat:'Compliance',type:'article',duration:'7 min read',required:true,desc:'Platform tax policy, USD earnings reporting, Stripe KYC requirements, and setting up your virtual card for withdrawals.',views:2670,seed:'lc6'},
+  {id:'lrn7',title:'Optimising Your Portfolio',cat:'Marketplace',type:'guide',duration:'10 min',required:false,desc:'Tips for keyword strategy, folder organisation, pricing your work, and increasing discoverability in search results.',views:890,seed:'lc7'},
+  {id:'lrn8',title:'AI Tagging Best Practices',cat:'Getting Started',type:'video',duration:'4 min',required:false,desc:'How to get the best results from smart auto-tagging — when to use it, how to edit suggestions, and managing AI-generated metadata.',views:740,seed:'lc8'}
+];
+var lrnCompRates={lrn1:78,lrn2:61,lrn3:84,lrn4:42,lrn5:38,lrn6:71,lrn7:29,lrn8:22};
+
+function renderAdminLrn(data){
+  var req=data.filter(function(i){return i.required;}).length;
+  var avgComp=data.length?Math.round(data.reduce(function(s,i){return s+(lrnCompRates[i.id]||0);},0)/data.length):0;
+  var nonComp=adminLrnData.filter(function(i){return i.required&&(lrnCompRates[i.id]||0)<100;}).length;
+  document.getElementById('lrnAdminKpi').innerHTML=[
+    ['Total content',data.length,'items in library'],
+    ['Required items',req,'mandatory for creators'],
+    ['Avg completion',avgComp+'%','across all creators'],
+    ['Compliance issues',nonComp,'required items below 100%']
+  ].map(function(k){return '<div class="stat"><span class="st-label">'+k[0]+'</span><span class="st-val sm">'+k[1]+'</span><span class="st-sub">'+k[2]+'</span></div>';}).join('');
+  document.getElementById('lrnAdminCount').textContent=data.length+' item'+(data.length!==1?'s':'');
+  document.getElementById('lrnAdminBody').innerHTML=data.map(function(item){
+    var comp=lrnCompRates[item.id]||0;
+    return '<tr>'
+      +'<td style="font-weight:600">'+item.title+'</td>'
+      +'<td><span class="chipm" style="font-size:10px;padding:3px 8px">'+item.cat+'</span></td>'
+      +'<td class="mono" style="text-transform:uppercase;font-size:10px;color:var(--muted)">'+item.type+'</td>'
+      +'<td class="mono" style="color:var(--muted)">'+item.duration+'</td>'
+      +'<td>'+(item.required?'<span class="tg flag" style="font-size:9px">Required</span>':'<span class="tg" style="font-size:9px">Optional</span>')+'</td>'
+      +'<td class="r mono">'+item.views.toLocaleString()+'</td>'
+      +'<td class="r"><div style="display:flex;align-items:center;gap:8px;justify-content:flex-end">'
+      +'<span class="mono" style="font-size:11px;color:var(--muted);width:32px">'+comp+'%</span>'
+      +'<div style="width:64px;height:5px;background:var(--paper-2)"><div style="height:100%;background:var(--ink);width:'+comp+'%"></div></div>'
+      +'</div></td>'
+      +'<td><div class="act-row">'
+      +'<button class="act-btn go" onclick="openEditLrnForm(\''+item.id+'\')">Edit</button>'
+      +'<button class="act-btn lrn-req-toggle" id="lrt-'+item.id+'" onclick="toggleLrnRequired(\''+item.id+'\',this)">'+(item.required?'Make optional':'Make required')+'</button>'
+      +'<button class="act-btn danger" onclick="deleteLrnItem(\''+item.id+'\')">Delete</button>'
+      +'</div></td></tr>';
+  }).join('');
+  document.getElementById('lrnCompBars').innerHTML=data.map(function(item){
+    var comp=lrnCompRates[item.id]||0;
+    return '<div class="ebar"><div class="et"><span>'+item.title+(item.required?' <span style="font-family:var(--mono);font-size:9px;color:var(--red)">req</span>':'')+'</span><span class="ev">'+comp+'%</span></div>'
+      +'<div class="ebar-track"><div class="ebar-fill" style="width:'+comp+'%"></div></div></div>';
+  }).join('');
+}
+
+function adminLrnTab(type,el){
+  document.querySelectorAll('#a-learning .seg button').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  var filtered=type==='all'?adminLrnData
+    :type==='required'?adminLrnData.filter(function(i){return i.required;})
+    :adminLrnData.filter(function(i){return i.type===type;});
+  renderAdminLrn(filtered);
+}
+
+function toggleLrnRequired(id,btn){
+  var item=adminLrnData.find(function(i){return i.id===id;});
+  if(!item)return;
+  item.required=!item.required;
+  btn.textContent=item.required?'Make optional':'Make required';
+  var row=btn.closest('tr');
+  var cell=row.querySelector('td:nth-child(5)');
+  cell.innerHTML=item.required?'<span class="tg flag" style="font-size:9px">Required</span>':'<span class="tg" style="font-size:9px">Optional</span>';
+  var bar=document.querySelector('#lrnCompBars .ebar:nth-child('+( adminLrnData.indexOf(item)+1)+') .et span:first-child');
+  if(bar)bar.innerHTML=item.title+(item.required?' <span style="font-family:var(--mono);font-size:9px;color:var(--red)">req</span>':'');
+}
+
+function deleteLrnItem(id){
+  var idx=adminLrnData.findIndex(function(i){return i.id===id;});
+  if(idx<0)return;
+  var rows=document.getElementById('lrnAdminBody').querySelectorAll('tr');
+  if(rows[idx]){rows[idx].style.opacity='0';rows[idx].style.transform='translateX(12px)';rows[idx].style.transition='.3s';}
+  setTimeout(function(){adminLrnData.splice(idx,1);renderAdminLrn(adminLrnData);},320);
+}
+
+function lrnFormBody(item){
+  var cats=['Getting Started','Marketplace','Contests','Brand Campaigns','Compliance'];
+  return '<div class="frow"><label>Title</label><input class="fld" id="lf-title" value="'+(item.title||'')+'" placeholder="e.g. Copyright &amp; IP Compliance"></div>'
+    +'<div class="fgrid"><div class="fr"><label>Category</label><select class="fld" id="lf-cat">'
+    +cats.map(function(c){return '<option'+(item.cat===c?' selected':'')+'>'+c+'</option>';}).join('')
+    +'</select></div>'
+    +'<div class="fr"><label>Content type</label><select class="fld" id="lf-type">'
+    +['video','article','guide'].map(function(t){return '<option'+(item.type===t?' selected':'')+'>'+t+'</option>';}).join('')
+    +'</select></div></div>'
+    +'<div class="frow" style="margin-top:16px"><label>Duration / read time</label><input class="fld" id="lf-dur" value="'+(item.duration||'')+'" placeholder="e.g. 8 min or 5 min read"></div>'
+    +'<div class="frow"><label>Description</label><textarea class="fld" id="lf-desc" placeholder="What will creators learn from this?">'+(item.desc||'')+'</textarea></div>'
+    +'<div class="frow"><label style="display:flex;align-items:center;gap:10px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px"><input type="checkbox" id="lf-req"'+(item.required?' checked':'')+' style="width:16px;height:16px;flex-shrink:0"> Mark as required — gates features until completed</label></div>'
+    +'<div class="fhint">Required items appear in the compliance strip and block certain platform actions until completed by the creator.</div>';
+}
+
+function openAddLrnForm(){
+  openModal('New content','Add learning content',lrnFormBody({}),'Publish',function(){
+    var newItem={id:'lrn_new_'+Date.now(),title:gv('lf-title')||'Untitled',cat:gv('lf-cat')||'Getting Started',type:gv('lf-type')||'video',duration:gv('lf-dur')||'5 min',required:document.getElementById('lf-req').checked,desc:gv('lf-desc')||'',views:0,seed:'lc'+(adminLrnData.length+1)};
+    adminLrnData.unshift(newItem);
+    lrnCompRates[newItem.id]=0;
+    renderAdminLrn(adminLrnData);
+    closeModal();
+  });
+}
+
+function openEditLrnForm(id){
+  var item=adminLrnData.find(function(i){return i.id===id;});
+  if(!item)return;
+  openModal('Edit content','Edit: '+item.title,lrnFormBody(item),'Save changes',function(){
+    item.title=gv('lf-title')||item.title;
+    item.cat=gv('lf-cat')||item.cat;
+    item.type=gv('lf-type')||item.type;
+    item.duration=gv('lf-dur')||item.duration;
+    item.required=document.getElementById('lf-req').checked;
+    item.desc=gv('lf-desc')||item.desc;
+    renderAdminLrn(adminLrnData);
+    closeModal();
+  });
+}
+
+renderAdminLrn(adminLrnData);
+
 /* ============ INIT ============ */
-(function(){var h=location.hash.slice(1);var sc=['a-overview','a-members','a-market','a-contests','a-campaigns','a-payouts'];show(sc.indexOf(h)>=0?h:'a-overview');}());
+(function(){var h=location.hash.slice(1);var sc=['a-overview','a-members','a-market','a-contests','a-campaigns','a-payouts','a-learning'];show(sc.indexOf(h)>=0?h:'a-overview');}());

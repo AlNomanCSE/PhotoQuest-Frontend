@@ -28,6 +28,7 @@
     <a class="nav-item" data-go="a-contests"><span class="ni-no">04</span>Contests</a>
     <a class="nav-item" data-go="a-campaigns"><span class="ni-no">05</span>Brand Campaigns</a>
     <a class="nav-item" data-go="a-payouts"><span class="ni-no">06</span>Payouts &amp; Reports</a>
+    <a class="nav-item" data-go="a-learning"><span class="ni-no">07</span>Learning Center</a>
   </nav>
   <div class="side-foot">
     <div class="sf-line"><span>Signed in</span><span class="sf-val">Admin</span></div>
@@ -184,6 +185,43 @@
         <div class="rows" id="feeBreak" style="margin-top:14px"></div>
         <p class="hint">The 13% platform fee covers taxes, insurance and Stripe merchant fees. Minimum payout $50.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 7. LEARNING CENTER -->
+  <section class="screen" id="a-learning">
+    <div class="page-head">
+      <div><div class="eyebrow">Console / 07</div><h1>Learning Center</h1>
+      <p>Manage training content, mark items as required, and track creator compliance across the platform.</p></div>
+      <button class="btn-solid" onclick="openAddLrnForm()">+ Add content</button>
+    </div>
+
+    <div class="stat-row" id="lrnAdminKpi"></div>
+
+    <div class="head-actions" style="margin-bottom:18px">
+      <div class="seg">
+        <button class="on" onclick="adminLrnTab('all',this)">All</button>
+        <button onclick="adminLrnTab('required',this)">Required only</button>
+        <button onclick="adminLrnTab('video',this)">Videos</button>
+        <button onclick="adminLrnTab('article',this)">Articles</button>
+        <button onclick="adminLrnTab('guide',this)">Guides</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Content library — <span id="lrnAdminCount">8 items</span></div>
+      <table class="tbl admin-tbl">
+        <thead><tr>
+          <th>Title</th><th>Category</th><th>Type</th><th>Duration</th>
+          <th>Required</th><th class="r">Views</th><th class="r">Completion</th><th class="r">Actions</th>
+        </tr></thead>
+        <tbody id="lrnAdminBody"></tbody>
+      </table>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-title">Completion rate by item</div>
+      <div id="lrnCompBars" class="ebars" style="margin-top:14px"></div>
     </div>
   </section>
 

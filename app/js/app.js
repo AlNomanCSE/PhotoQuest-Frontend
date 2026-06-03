@@ -372,11 +372,145 @@ function renderOrders(data){
 }
 renderOrders(ordersData);
 
+/* ============ LEARNING CENTER ============ */
+var learningContent=[
+  {id:'lrn1',title:'Getting Started with PhotoQuest',cat:'Getting Started',type:'video',duration:'8 min',required:true,desc:'An introduction to the platform — set up your profile, upload your first photo, and configure your payout method.',seed:'lc1'},
+  {id:'lrn2',title:'How to License Your Photos',cat:'Marketplace',type:'video',duration:'12 min',required:true,desc:'Walk through the licensing workflow — standard vs extended vs enterprise, pricing strategy, and how buyers find your work.',seed:'lc2'},
+  {id:'lrn3',title:'Copyright & IP Compliance',cat:'Compliance',type:'article',duration:'5 min read',required:true,desc:'Understand your rights and responsibilities as a content creator — what you can and cannot upload, model releases, and property rights.',seed:'lc3'},
+  {id:'lrn4',title:'Entering Contests — Rules & Strategy',cat:'Contests',type:'guide',duration:'6 min',required:false,desc:'How the weekly and monthly quests work, what judges look for, and how prize distribution works across tiers.',seed:'lc4'},
+  {id:'lrn5',title:'Brand Campaign Guidelines',cat:'Brand Campaigns',type:'video',duration:'15 min',required:true,desc:'Everything about applying to brand campaigns — brief interpretation, style expectations, submission requirements and payment timelines.',seed:'lc5'},
+  {id:'lrn6',title:'Tax & Payout Information',cat:'Compliance',type:'article',duration:'7 min read',required:true,desc:'Platform tax policy, USD earnings reporting, Stripe KYC requirements, and how to set up your virtual card for withdrawals.',seed:'lc6'},
+  {id:'lrn7',title:'Optimising Your Portfolio',cat:'Marketplace',type:'guide',duration:'10 min',required:false,desc:'Tips for keyword strategy, folder organisation, pricing your work, and increasing discoverability in search results.',seed:'lc7'},
+  {id:'lrn8',title:'AI Tagging Best Practices',cat:'Getting Started',type:'video',duration:'4 min',required:false,desc:'How to get the best results from smart auto-tagging — when to use it, how to edit suggestions, and managing AI-generated metadata.',seed:'lc8'}
+];
+var completedLearning=new Set(['lrn1','lrn3']);
+var lrnCurrentTab='all';
+var lrnCurrentCat='All';
+
+function lrnUpdateProgress(){
+  var total=learningContent.length;
+  var done=completedLearning.size;
+  var required=learningContent.filter(function(i){return i.required;});
+  var reqDone=required.filter(function(i){return completedLearning.has(i.id);}).length;
+  var pct=Math.round(done/total*100);
+  document.getElementById('lrnProgFrac').textContent=done+' of '+total+' completed';
+  document.getElementById('lrnProgPct').textContent=pct+'%';
+  document.getElementById('lrnProgBar').style.width=pct+'%';
+  var allReqDone=reqDone===required.length;
+  var statusEl=document.getElementById('lrnReqStatus');
+  statusEl.textContent=allReqDone
+    ?'✓ All '+required.length+' required items completed — all features unlocked'
+    :'⚠ '+reqDone+' of '+required.length+' required items completed — some features are gated';
+  statusEl.className=allReqDone?'lrn-ok':'lrn-warn';
+  /* required strip */
+  document.getElementById('lrnReqStrip').innerHTML=
+    '<div class="lrn-req-head"><span class="mono" style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Required to unlock all features</span></div>'
+    +'<div class="lrn-req-items">'+required.map(function(item){
+      var d=completedLearning.has(item.id);
+      return '<div class="lrn-req-item'+(d?' done':'')+'" onclick="lrnOpen(\''+item.id+'\')">'
+        +'<span class="lrn-ri-check">'+(d?'✓':'○')+'</span>'
+        +'<span class="lrn-ri-title">'+item.title+'</span>'
+        +'</div>';
+    }).join('')+'</div>';
+}
+
+function lrnRender(items){
+  document.getElementById('lrnCount').textContent=items.length+' item'+(items.length!==1?'s':'');
+  var icons={video:'▶',article:'✦',guide:'◈'};
+  document.getElementById('lrnGrid').innerHTML=items.length
+    ?items.map(function(item){
+        var done=completedLearning.has(item.id);
+        return '<div class="lrn-card'+(done?' lrn-done':'')+'" onclick="lrnOpen(\''+item.id+'\')">'
+          +'<div class="lrn-thumb">'
+          +'<img src="'+pic(item.seed,600,340)+'" alt="">'
+          +'<span class="lrn-type-badge">'+(icons[item.type]||'')+ ' '+item.type.toUpperCase()+'</span>'
+          +(item.required?'<span class="lrn-req-badge">Required</span>':'')
+          +(done?'<div class="lrn-done-overlay">✓</div>':'')
+          +'</div>'
+          +'<div class="lrn-body">'
+          +'<span class="lrn-cat">'+item.cat+'</span>'
+          +'<h3 class="lrn-title">'+item.title+'</h3>'
+          +'<p class="lrn-desc">'+item.desc+'</p>'
+          +'<div class="lrn-foot"><span class="mono">'+item.duration+'</span>'
+          +'<button class="'+(done?'btn-line':'btn-solid')+' lrn-btn">'+(done?'Review ↗':'Start →')+'</button>'
+          +'</div></div></div>';
+      }).join('')
+    :'<p style="padding:40px 0;color:var(--muted);font-family:var(--mono);font-size:13px">No items match this filter.</p>';
+}
+
+function lrnGetFiltered(){
+  return learningContent.filter(function(item){
+    var tabOk=lrnCurrentTab==='all'
+      ||(lrnCurrentTab==='required'&&item.required)
+      ||(lrnCurrentTab==='completed'&&completedLearning.has(item.id))
+      ||(lrnCurrentTab==='todo'&&!completedLearning.has(item.id));
+    var catOk=lrnCurrentCat==='All'||item.cat===lrnCurrentCat;
+    return tabOk&&catOk;
+  });
+}
+
+function lrnTab(tab,el){
+  lrnCurrentTab=tab;
+  document.querySelectorAll('#learning .seg button').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  lrnRender(lrnGetFiltered());
+}
+function lrnCat(cat,el){
+  lrnCurrentCat=cat;
+  document.querySelectorAll('.lrn-cats .fl').forEach(function(a){a.classList.remove('on');});
+  el.classList.add('on');
+  lrnRender(lrnGetFiltered());
+}
+
+function lrnOpen(id){
+  var item=learningContent.find(function(i){return i.id===id;});
+  if(!item)return;
+  var done=completedLearning.has(id);
+  document.getElementById('lrnViewerThumb').src=pic(item.seed,900,506);
+  document.getElementById('lrnViewerTitle').textContent=item.title;
+  document.getElementById('lrnViewerCat').textContent=item.cat+' · '+item.type+' · '+item.duration;
+  document.getElementById('lrnViewerDesc').textContent=item.desc;
+  document.getElementById('lrnViewerRequired').style.display=item.required?'inline-block':'none';
+  var btn=document.getElementById('lrnViewerComplete');
+  btn.textContent=done?'✓ Completed — mark incomplete':(item.type==='video'?'Mark as watched':'Mark as read');
+  btn.className=(done?'btn-line':'btn-solid')+' full';
+  btn.onclick=function(){lrnToggleComplete(id);};
+  document.getElementById('lrnViewer').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function lrnToggleComplete(id){
+  if(completedLearning.has(id))completedLearning.delete(id);
+  else completedLearning.add(id);
+  lrnUpdateProgress();
+  lrnRender(lrnGetFiltered());
+  /* update open viewer */
+  var done=completedLearning.has(id);
+  var item=learningContent.find(function(i){return i.id===id;});
+  var btn=document.getElementById('lrnViewerComplete');
+  btn.textContent=done?'✓ Completed — mark incomplete':(item.type==='video'?'Mark as watched':'Mark as read');
+  btn.className=(done?'btn-line':'btn-solid')+' full';
+  /* update nav flag */
+  var req=learningContent.filter(function(i){return i.required;});
+  var reqLeft=req.filter(function(i){return !completedLearning.has(i.id);}).length;
+  var flag=document.querySelector('[data-go="learning"] .ni-flag');
+  if(flag)flag.textContent=reqLeft>0?reqLeft+' req':'✓';
+}
+
+function lrnViewerClose(){
+  document.getElementById('lrnViewer').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* init */
+lrnUpdateProgress();
+lrnRender(learningContent);
+
 /* ============ INIT ============ */
 renderPlans();
 (function(){
   var h=location.hash.slice(1);
-  var sc=['landing','pricing','marketplace','contests','campaigns','dashboard','upload','portfolio','earnings','referral','orders','photo-detail','checkout'];
+  var sc=['landing','pricing','marketplace','contests','campaigns','dashboard','upload','portfolio','earnings','referral','orders','learning','photo-detail','checkout'];
   if(h==='photo-detail'||h==='checkout')h='marketplace';
   show(sc.indexOf(h)>=0?h:'landing');
 }());

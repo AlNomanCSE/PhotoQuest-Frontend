@@ -18,27 +18,20 @@
   <div class="brand">
     <div class="brand-row">
       <span class="brand-name">PhotoQuest</span>
-      <span class="brand-idx">01</span>
+      <button class="sidebar-close" onclick="toggleNav(false)" aria-label="Close menu">✕</button>
     </div>
     <div class="brand-sub">Photography, licensed.</div>
   </div>
 
   <nav class="nav">
-    <div class="nav-label">Discover</div>
-    <a class="nav-item active" data-go="landing"><span class="ni-no">01</span>Home</a>
-    <a class="nav-item" data-go="pricing"><span class="ni-no">02</span>Membership</a>
-    <a class="nav-item" data-go="marketplace"><span class="ni-no">03</span>Marketplace</a>
-    <a class="nav-item" data-go="contests"><span class="ni-no">04</span>Contests<span class="ni-flag">3 live</span></a>
-    <a class="nav-item" data-go="campaigns"><span class="ni-no">05</span>Brand Campaigns</a>
-
     <div class="nav-label">Studio</div>
-    <a class="nav-item" data-go="dashboard"><span class="ni-no">06</span>Dashboard</a>
-    <a class="nav-item" data-go="upload"><span class="ni-no">07</span>Upload</a>
-    <a class="nav-item" data-go="portfolio"><span class="ni-no">08</span>Portfolio</a>
-    <a class="nav-item" data-go="earnings"><span class="ni-no">09</span>Earnings &amp; Payouts</a>
-    <a class="nav-item" data-go="referral"><span class="ni-no">10</span>Referral</a>
-    <a class="nav-item" data-go="orders"><span class="ni-no">11</span>Orders &amp; Downloads</a>
-    <a class="nav-item" data-go="learning"><span class="ni-no">12</span>Learning Center<span class="ni-flag">3 req</span></a>
+    <a class="nav-item" data-go="dashboard"><span class="ni-no">01</span>Dashboard</a>
+    <a class="nav-item" data-go="upload"><span class="ni-no">02</span>Upload</a>
+    <a class="nav-item" data-go="portfolio"><span class="ni-no">03</span>Portfolio</a>
+    <a class="nav-item" data-go="earnings"><span class="ni-no">04</span>Earnings &amp; Payouts</a>
+    <a class="nav-item" data-go="referral"><span class="ni-no">05</span>Referral</a>
+    <a class="nav-item" data-go="orders"><span class="ni-no">06</span>Orders &amp; Downloads</a>
+    <a class="nav-item" data-go="learning"><span class="ni-no">07</span>Learning Center<span class="ni-flag">3 req</span></a>
   </nav>
 
   <div class="side-foot">
@@ -52,10 +45,20 @@
 <div class="main">
   <header class="topbar">
     <button class="hamburger" onclick="toggleNav(true)" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleNav()" aria-label="Toggle sidebar">
+      <span class="st-bar"></span><span class="st-bar"></span><span class="st-bar st-short"></span>
+    </button>
     <div class="searchbar">
       <span class="sb-label">Search</span>
       <input placeholder=""sunset miami", "urban night"…" onkeydown="if(event.key==='Enter'){show('marketplace');document.getElementById('mkSearchInput').value=this.value;mkSearch();}">
     </div>
+    <nav class="top-discover-nav">
+      <a class="tdn-item active" data-go="landing">Home</a>
+      <a class="tdn-item" data-go="pricing">Membership</a>
+      <a class="tdn-item" data-go="marketplace">Marketplace</a>
+      <a class="tdn-item" data-go="contests">Contests<span class="tdn-flag">3</span></a>
+      <a class="tdn-item" data-go="campaigns">Brand Campaigns</a>
+    </nav>
     <div class="topbar-spacer"></div>
     <button class="t-link" onclick="toggleTheme()" id="themeBtn">Dark</button>
     <div class="t-div"></div>

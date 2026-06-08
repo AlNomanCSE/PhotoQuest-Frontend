@@ -1,7 +1,11 @@
 /* ============ NAVIGATION ============ */
+var PUBLIC_SCREENS=['landing','pricing','marketplace','photo-detail','checkout','contests','campaigns'];
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.go===id));
+  document.querySelectorAll('.nav-item,.tdn-item').forEach(n=>n.classList.toggle('active',n.dataset.go===id));
+  var isPublic=PUBLIC_SCREENS.indexOf(id)>=0;
+  document.querySelector('.app').classList.toggle('zone-public',isPublic);
+  document.querySelector('.app').classList.toggle('zone-dash',!isPublic);
   window.scrollTo({top:0});
   if(window.innerWidth<=768)toggleNav(false);
   history.replaceState(null,'','#'+id);
@@ -11,8 +15,21 @@ document.addEventListener('click',function(e){
   if(g){e.preventDefault();show(g.dataset.go);}
 });
 function toggleNav(open){
-  document.getElementById('sidebar').classList.toggle('open',open);
-  document.getElementById('ov').classList.toggle('show',open);
+  var sidebar=document.getElementById('sidebar');
+  var isDesktop=window.innerWidth>768;
+  if(open===undefined){
+    // desktop toggle: collapsed class
+    if(isDesktop){
+      var collapsed=sidebar.classList.toggle('collapsed');
+      document.getElementById('sidebarToggle').classList.toggle('is-open',!collapsed);
+      document.querySelector('.app').classList.toggle('sidebar-collapsed',collapsed);
+      return;
+    }
+    open=true;
+  }
+  sidebar.classList.toggle('open',open);
+  document.getElementById('ov').classList.toggle('show',open&&!isDesktop);
+  if(isDesktop)document.getElementById('sidebarToggle').classList.toggle('is-open',open);
 }
 
 /* ============ THEME ============ */

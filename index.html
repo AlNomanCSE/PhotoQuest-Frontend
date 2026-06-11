@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PhotoQuest — Frontend</title>
+    <title>wa1ted — Frontend</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,16 +12,20 @@
     />
     <style>
       :root {
-        --bg: #efebe1;
-        --paper: #f7f4ec;
-        --ink: #1a1814;
-        --ink2: #4b463d;
-        --muted: #7c766a;
-        --faint: #a39c8d;
-        --rule: rgba(26, 24, 20, 0.18);
-        --rule2: rgba(26, 24, 20, 0.32);
-        --red: #b5392a;
-        --on: #f7f4ec;
+        --bg: #fbfbfd;
+        --paper: #ffffff;
+        --ink: #13151a;
+        --ink2: #3b414c;
+        --muted: #6b727f;
+        --faint: #9aa1ad;
+        --rule: rgba(19, 21, 26, 0.1);
+        --rule2: rgba(19, 21, 26, 0.16);
+        --red: #e11d74;
+        --on: #ffffff;
+        --grad: linear-gradient(135deg, #2b7cff 0%, #a23bf0 42%, #ff2e8b 70%, #ff8a1a 100%);
+        --radius: 14px;
+        --radius-sm: 10px;
+        --shadow: 0 1px 2px rgba(19,21,26,.04), 0 10px 30px -12px rgba(19,21,26,.16);
         --display: "Bricolage Grotesque", sans-serif;
         --body: "Instrument Sans", sans-serif;
         --serif: "Newsreader", serif;
@@ -29,16 +33,17 @@
       }
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #161512;
-          --paper: #1e1c18;
-          --ink: #ece7da;
-          --ink2: #bcb5a6;
-          --muted: #8a8475;
-          --faint: #5c574b;
-          --rule: rgba(236, 231, 218, 0.16);
-          --rule2: rgba(236, 231, 218, 0.3);
-          --red: #e0584a;
-          --on: #161512;
+          --bg: #0d0e12;
+          --paper: #16181f;
+          --ink: #eef0f5;
+          --ink2: #b7bdc8;
+          --muted: #838b99;
+          --faint: #565e6c;
+          --rule: rgba(238, 240, 245, 0.12);
+          --rule2: rgba(238, 240, 245, 0.22);
+          --red: #ff4d9d;
+          --on: #0d0e12;
+          --shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 40px -16px rgba(0,0,0,.6);
         }
       }
       * {
@@ -71,6 +76,83 @@
         font-weight: 800;
         font-size: 22px;
         letter-spacing: -0.04em;
+      }
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        line-height: 1;
+        text-decoration: none;
+      }
+      .logo-mark {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        display: block;
+      }
+      .logo-word {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: -0.04em;
+        color: var(--ink, #15171a);
+      }
+      .logo-1 {
+        background: linear-gradient(135deg, #2b7cff, #ff2e8b, #ff8a1a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+      .fulllogo {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        line-height: 1;
+        text-decoration: none;
+      }
+      .fl-word {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: -0.04em;
+        color: var(--ink);
+        margin-top: 5px;
+        line-height: 1;
+      }
+      .fl-1 {
+        background: linear-gradient(135deg, #2b7cff, #ff2e8b, #ff8a1a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+      .fl-pillars {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 10px;
+        letter-spacing: 0.05em;
+        margin-top: 7px;
+      }
+      .fl-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .fl-sep {
+        opacity: 0.35;
+      }
+      .fl-slogan {
+        font-family: var(--mono);
+        font-size: 10px;
+        opacity: 0.55;
+        margin-top: 5px;
+        letter-spacing: 0.02em;
+        color: var(--ink);
       }
       .top .tag {
         font-family: var(--mono);
@@ -114,8 +196,7 @@
       .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 0;
-        border: 1px solid var(--rule2);
+        gap: 20px;
         max-width: 1180px;
         margin: 30px auto 0;
         width: calc(100% - 14%);
@@ -123,17 +204,18 @@
       .cardlink {
         display: flex;
         flex-direction: column;
-        padding: 30px 26px;
-        border-right: 1px solid var(--rule);
-        transition: 0.18s;
+        padding: 26px 24px;
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        transition: 0.2s;
         min-height: 300px;
         position: relative;
       }
-      .cardlink:last-child {
-        border-right: none;
-      }
       .cardlink:hover {
-        background: var(--paper);
+        transform: translateY(-4px);
+        border-color: transparent;
       }
       .cardlink .no {
         font-family: var(--mono);
@@ -144,13 +226,12 @@
         height: 120px;
         margin: 16px 0 18px;
         overflow: hidden;
-        border: 1px solid var(--rule);
+        border-radius: var(--radius-sm);
       }
       .cardlink .thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        filter: grayscale(0.2);
         transition: 0.4s;
       }
       .cardlink:hover .thumb img {
@@ -217,9 +298,30 @@
     </style>
   </head>
   <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="wg" x1="0" y1="0" x2="72" y2="72" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#2B7CFF" />
+          <stop offset=".42" stop-color="#A23BF0" />
+          <stop offset=".68" stop-color="#FF2E8B" />
+          <stop offset="1" stop-color="#FF8A1A" />
+        </linearGradient>
+      </defs>
+    </svg>
     <header class="top">
-      <span class="wm">PhotoQuest</span
-      ><span class="tag">Frontend · concept prototype</span>
+      <span class="fulllogo">
+        <svg width="46" height="46" viewBox="0 0 72 72" fill="none" aria-hidden="true" style="display:block"><path d="M8 14 L22 60 L37 34 L52 60 L64 10" stroke="url(#wg)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><polygon points="64,2 72,17 56,17" fill="url(#wg)"/><circle cx="37" cy="15" r="10" stroke="url(#wg)" stroke-width="3"/><path d="M42.5 15 L39.75 19.76 L34.25 19.76 L31.5 15 L34.25 10.24 L39.75 10.24 Z" stroke="url(#wg)" stroke-width="1.5"/><g stroke="url(#wg)" stroke-width="1.2"><line x1="42.5" y1="15" x2="45.66" y2="20"/><line x1="39.75" y1="19.76" x2="37" y2="25"/><line x1="34.25" y1="19.76" x2="28.34" y2="20"/><line x1="31.5" y1="15" x2="28.34" y2="10"/><line x1="34.25" y1="10.24" x2="37" y2="5"/><line x1="39.75" y1="10.24" x2="45.66" y2="10"/></g></svg>
+        <span class="fl-word">wa<span class="fl-1">1</span>ted</span>
+        <span class="fl-pillars">
+          <span class="fl-pill" style="color:#3B8CFF"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" style="vertical-align:-1px"><rect x="0.5" y="2.5" width="12" height="9.5" rx="2.4" stroke="#3B8CFF" stroke-width="1.5"/><circle cx="6.5" cy="7.2" r="2.4" stroke="#3B8CFF" stroke-width="1.5"/></svg>SHOOT</span>
+          <span class="fl-sep">|</span>
+          <span class="fl-pill" style="color:#FF4D9D"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" style="vertical-align:-1px"><path d="M7 12 V3 M3.5 6.5 L7 3 L10.5 6.5" stroke="#FF4D9D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>SHARE</span>
+          <span class="fl-sep">|</span>
+          <span class="fl-pill" style="color:#FFA033"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" style="vertical-align:-1px"><circle cx="7" cy="7" r="6.2" stroke="#FFA033" stroke-width="1.5"/><text x="7" y="10.2" text-anchor="middle" font-size="9" fill="#FFA033" font-family="monospace">$</text></svg>EARN</span>
+        </span>
+        <span class="fl-slogan">The next generation of income</span>
+      </span>
+      <span class="tag">Frontend · concept prototype</span>
     </header>
 
     <section class="hero">
@@ -284,7 +386,7 @@
     </nav>
 
     <footer class="foot">
-      <span>© 2026 PhotoQuest — concept prototype</span>
+      <span>© 2026 wa1ted — concept prototype</span>
       <span class="mono"
         >Host this folder on any static host (Netlify · Vercel · GitHub Pages ·
         cPanel)</span

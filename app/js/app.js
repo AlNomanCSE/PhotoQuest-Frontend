@@ -6,6 +6,7 @@ function show(id){
   var isPublic=PUBLIC_SCREENS.indexOf(id)>=0;
   document.querySelector('.app').classList.toggle('zone-public',isPublic);
   document.querySelector('.app').classList.toggle('zone-dash',!isPublic);
+  document.querySelector('.app').classList.toggle('on-landing',id==='landing');
   window.scrollTo({top:0});
   if(window.innerWidth<=768)toggleNav(false);
   history.replaceState(null,'','#'+id);

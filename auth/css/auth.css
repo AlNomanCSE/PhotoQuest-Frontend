@@ -9,6 +9,17 @@
 .ab-top{display:flex;flex-direction:column}
 .ab-name{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.04em}
 .ab-name.sm{font-size:20px;color:var(--ink)}
+/* ---- wa1ted logo lockup ---- */
+.ab-logo{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+.ab-word{font-family:var(--display);font-weight:800;font-size:40px;letter-spacing:-.04em;color:currentColor;line-height:1.1;margin-top:6px}
+.ab-1{background:linear-gradient(135deg,#2B7CFF,#FF2E8B,#FF8A1A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.ab-pillars{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.06em;margin-top:12px}
+.ab-pill{display:inline-flex;align-items:center;gap:5px}
+.ab-sep{opacity:.35}
+.ab-slogan{font-family:var(--mono);font-size:12px;opacity:.6;margin-top:9px;letter-spacing:.02em}
+.logo-h{display:inline-flex;align-items:center;gap:8px;line-height:1}
+.logo-h-word{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.04em;color:var(--ink)}
+.logo-h-1{background:linear-gradient(135deg,#2B7CFF,#FF2E8B,#FF8A1A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .ab-tag{font-family:var(--serif);font-style:italic;font-size:15px;opacity:.7;margin-top:2px}
 .ab-mid{margin:30px 0}
 .ab-head{font-family:var(--display);font-weight:800;font-size:clamp(30px,3.2vw,46px);line-height:.98;letter-spacing:-.04em}
@@ -39,9 +50,9 @@
 .frow{margin-bottom:16px}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .frow label,.fgrid .fr label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px}
-.fld{width:100%;background:var(--paper);border:1px solid var(--rule-2);padding:12px 13px;font-family:var(--body);font-size:14px;color:var(--ink);outline:none;transition:.12s}
+.fld{width:100%;background:var(--paper);border:1px solid var(--rule-2);padding:13px 14px;font-family:var(--body);font-size:14px;color:var(--ink);outline:none;transition:.15s;border-radius:var(--radius-sm)}
 .fld.mono{font-family:var(--mono)}
-.fld:focus{border-color:var(--ink)}
+.fld:focus{border-color:var(--c-purple);box-shadow:0 0 0 3px var(--tint)}
 .fld::placeholder{color:var(--faint)}
 select.fld{appearance:none;cursor:pointer}
 .pw-wrap{position:relative}
@@ -55,8 +66,8 @@ select.fld{appearance:none;cursor:pointer}
 
 .divider{display:flex;align-items:center;gap:14px;margin:18px 0;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
 .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--rule)}
-.btn-social{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--rule-2);background:none;padding:12px;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:10px;transition:.12s;cursor:pointer}
-.btn-social:hover{border-color:var(--ink)}
+.btn-social{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--rule-2);background:var(--paper);padding:13px;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:10px;transition:.15s;cursor:pointer;border-radius:var(--radius-sm)}
+.btn-social:hover{border-color:var(--c-purple);background:var(--tint)}
 .btn-social b{font-family:var(--display);font-size:15px}
 
 .foot-note{font-size:13.5px;color:var(--muted);margin-top:22px}
@@ -66,13 +77,13 @@ select.fld{appearance:none;cursor:pointer}
 .foot-note.muted-note{margin-top:8px}
 .back-link{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:16px;cursor:pointer}
 .back-link:hover{color:var(--ink)}
-.role-pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);border:1px solid var(--red);padding:4px 9px;margin-bottom:14px}
-.role-pill.red{background:var(--red);color:#fff}
+.role-pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--grad);padding:5px 11px;margin-bottom:14px;border-radius:20px}
+.role-pill.red{background:var(--grad);color:#fff}
 
 /* role cards */
-.role-card{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--rule-2);padding:16px;margin-bottom:12px;cursor:pointer;transition:.15s}
-.role-card:hover{border-color:var(--ink)}
-.role-card.sel{border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
+.role-card{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--rule-2);padding:16px;margin-bottom:12px;cursor:pointer;transition:.15s;border-radius:var(--radius-sm)}
+.role-card:hover{border-color:var(--c-purple);background:var(--tint)}
+.role-card.sel{border-color:var(--c-purple);box-shadow:inset 0 0 0 1px var(--c-purple),0 0 0 3px var(--tint)}
 .rc-radio{width:18px;height:18px;border-radius:50%;border:1px solid var(--rule-2);flex-shrink:0;margin-top:2px;transition:.15s}
 .role-card.sel .rc-radio{border-color:var(--red);background:var(--red);box-shadow:inset 0 0 0 3px var(--bg)}
 .rc-title{font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:3px}

@@ -8,33 +8,47 @@
   --serif:'Newsreader',Georgia,serif;
   --mono:'Space Mono',monospace;
   --sidebar-w:236px;
-  --red:#C0392B;
+  --c-blue:#2B7CFF;
+  --c-purple:#A23BF0;
+  --c-magenta:#FF2E8B;
+  --c-orange:#FF8A1A;
+  --grad:linear-gradient(135deg,#2B7CFF 0%,#A23BF0 42%,#FF2E8B 70%,#FF8A1A 100%);
+  --grad-2:linear-gradient(135deg,#2B7CFF,#FF2E8B);
+  --radius:14px;
+  --radius-sm:10px;
+  --radius-lg:20px;
 }
 html[data-theme="light"]{
-  --bg:#EFEBE1;          /* warm newsprint */
-  --paper:#F7F4EC;       /* panels */
-  --paper-2:#E7E2D6;     /* recessed */
-  --ink:#1A1814;         /* near-black warm */
-  --ink-2:#4B463D;
-  --muted:#7C766A;
-  --faint:#A39C8D;
-  --rule:rgba(26,24,20,.18);
-  --rule-2:rgba(26,24,20,.32);
-  --red:#B5392A;
-  --on-ink:#F7F4EC;
+  --bg:#FBFBFD;
+  --paper:#FFFFFF;
+  --paper-2:#F1F3F8;
+  --ink:#13151A;
+  --ink-2:#3B414C;
+  --muted:#6B727F;
+  --faint:#9AA1AD;
+  --rule:rgba(19,21,26,.10);
+  --rule-2:rgba(19,21,26,.16);
+  --red:#E11D74;
+  --on-ink:#FFFFFF;
+  --tint:rgba(123,63,242,.06);
+  --shadow:0 1px 2px rgba(19,21,26,.04),0 10px 30px -12px rgba(19,21,26,.16);
+  --shadow-sm:0 1px 2px rgba(19,21,26,.05),0 4px 14px -8px rgba(19,21,26,.18);
 }
 html[data-theme="dark"]{
-  --bg:#161512;
-  --paper:#1E1C18;
-  --paper-2:#13120F;
-  --ink:#ECE7DA;
-  --ink-2:#BCB5A6;
-  --muted:#8A8475;
-  --faint:#5C574B;
-  --rule:rgba(236,231,218,.16);
-  --rule-2:rgba(236,231,218,.3);
-  --red:#E0584A;
-  --on-ink:#161512;
+  --bg:#0D0E12;
+  --paper:#16181F;
+  --paper-2:#0A0B0F;
+  --ink:#EEF0F5;
+  --ink-2:#B7BDC8;
+  --muted:#838B99;
+  --faint:#565E6C;
+  --rule:rgba(238,240,245,.12);
+  --rule-2:rgba(238,240,245,.22);
+  --red:#FF4D9D;
+  --on-ink:#0D0E12;
+  --tint:rgba(162,59,240,.12);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 40px -16px rgba(0,0,0,.6);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4),0 6px 18px -10px rgba(0,0,0,.55);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -110,11 +124,11 @@ a{color:inherit;text-decoration:none;cursor:pointer}
 .page-head p{color:var(--muted);margin-top:12px;max-width:540px;font-size:15px}
 
 /* ============ BUTTONS ============ */
-.btn-solid{background:var(--ink);color:var(--on-ink);padding:11px 20px;font-weight:600;font-size:14px;
-  border:1px solid var(--ink);transition:.15s}
-.btn-solid:hover{background:transparent;color:var(--ink)}
-.btn-line{background:none;color:var(--ink);border:1px solid var(--rule-2);padding:11px 20px;font-weight:600;font-size:14px;transition:.15s}
-.btn-line:hover{border-color:var(--ink);background:var(--ink);color:var(--on-ink)}
+.btn-solid{background:var(--grad);background-size:140% 140%;color:#fff;padding:12px 22px;font-weight:600;font-size:14px;
+  border:none;border-radius:var(--radius-sm);transition:.2s;box-shadow:var(--shadow-sm);background-position:0% 50%}
+.btn-solid:hover{background-position:100% 50%;transform:translateY(-1px)}
+.btn-line{background:var(--paper);color:var(--ink);border:1px solid var(--rule-2);padding:12px 22px;font-weight:600;font-size:14px;transition:.2s;border-radius:var(--radius-sm)}
+.btn-line:hover{border-color:var(--c-purple);color:var(--c-purple);background:var(--tint)}
 .btn-line-inv{background:none;border:1px solid currentColor;color:var(--on-ink);padding:13px 24px;font-weight:600;font-size:15px}
 .btn-line-inv:hover{background:var(--on-ink);color:var(--ink)}
 .full{width:100%;display:block;text-align:center;margin-top:8px}

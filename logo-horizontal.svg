@@ -1,0 +1,37 @@
+<svg width="186" height="54" viewBox="0 0 186 54" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="wa1ted">
+  <title>wa1ted</title>
+  <defs>
+    <linearGradient id="wg" x1="0" y1="0" x2="72" y2="72" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2B7CFF"/>
+      <stop offset=".42" stop-color="#A23BF0"/>
+      <stop offset=".68" stop-color="#FF2E8B"/>
+      <stop offset="1" stop-color="#FF8A1A"/>
+    </linearGradient>
+    <linearGradient id="wgt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2B7CFF"/>
+      <stop offset=".55" stop-color="#FF2E8B"/>
+      <stop offset="1" stop-color="#FF8A1A"/>
+    </linearGradient>
+    <style>
+      .word{fill:#15171a;font-family:'Bricolage Grotesque','Arial Black',Arial,sans-serif;font-weight:800;}
+      @media (prefers-color-scheme: dark){.word{fill:#ffffff;}}
+    </style>
+  </defs>
+
+  <g transform="translate(2,4) scale(0.66)">
+    <path d="M8 14 L22 60 L37 34 L52 60 L64 10" fill="none" stroke="url(#wg)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="64,2 72,17 56,17" fill="url(#wg)"/>
+    <circle cx="37" cy="15" r="10" fill="none" stroke="url(#wg)" stroke-width="3"/>
+    <path d="M42.5 15 L39.75 19.76 L34.25 19.76 L31.5 15 L34.25 10.24 L39.75 10.24 Z" fill="none" stroke="url(#wg)" stroke-width="1.5"/>
+    <g stroke="url(#wg)" stroke-width="1.2">
+      <line x1="42.5" y1="15" x2="45.66" y2="20"/>
+      <line x1="39.75" y1="19.76" x2="37" y2="25"/>
+      <line x1="34.25" y1="19.76" x2="28.34" y2="20"/>
+      <line x1="31.5" y1="15" x2="28.34" y2="10"/>
+      <line x1="34.25" y1="10.24" x2="37" y2="5"/>
+      <line x1="39.75" y1="10.24" x2="45.66" y2="10"/>
+    </g>
+  </g>
+
+  <text class="word" x="54" y="37" font-size="32" letter-spacing="-1.4">wa<tspan fill="url(#wgt)">1</tspan>ted</text>
+</svg>
